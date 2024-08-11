@@ -1,0 +1,40 @@
+{% extends "app/layout.html" %}
+
+{% block body %}
+
+    <div id="home-page">
+        <div id="welcome-header">
+            <h5>Welcome to</h5>
+            <h3>Project 32 Road</h3>
+        </div>
+        <div id="nav-btn-group">
+            <a href="#" id="house-rules-btn" class="nav-btn">
+                <div class="btn-label">About the house</div>
+                <img src="static/app/assets/house.svg" class="btn-icon-1">
+            </a>
+            <a href="{% url 'information_admin' %}" id="essential-info-btn" class="nav-btn">
+                <div class="btn-label">Essential Information</div>
+                <img src="static/app/assets/privacy_tip.svg" class="btn-icon-1">
+            </a>
+            <div id="small-btn-group">
+                <div id="places-to-eat-btn" class="nav-btn">
+                    <div class="btn-label">Places to eat</div>
+                    <img src="static/app/assets/flatware.svg" class="btn-icon-2">
+                </div>
+                <div id="things-to-do-btn" class="nav-btn">
+                    <div class="btn-label">Things to do</div>
+                    <img src="static/app/assets/local_activity.svg" class="btn-icon-2-1">
+                </div>
+            </div>
+            <div id="emergency-contacts-btn" class="nav-btn">
+                <div class="btn-label">Emergency contacts</div>
+                <img src="static/app/assets/emergency.svg" class="btn-icon-1">
+            </div>
+            <a href="{% url 'house_rules_admin' %}" id="about-the-house-btn" class="nav-btn">
+                <div class="btn-label">House rules</div>
+                <img src="static/app/assets/developer_guide.svg" class="btn-icon-1">
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

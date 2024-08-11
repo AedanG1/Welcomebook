@@ -1,0 +1,246 @@
+document.addEventListener('DOMContentLoaded', function() {
+
+
+// Create sortable.js list
+    const sortableList = document.getElementById('sortable');
+    Sortable.create(sortableList, {
+        handle: '.drag-btn',
+        animation: 150
+    });
+    
+
+// Toggle Rule display function
+    function toggleRuleDisplay(item, displayState) {
+        // Object of elements to be changed
+        const elements = {
+            // Default text
+            text: item.querySelector('.editable > .editable-text'),
+            textArea: item.querySelector('.editable > .text-edit'),
+            // Sub text
+            subText: item.querySelector('.editable > .editable-subtext'),
+            subTextArea: item.querySelector('.editable > .subtext-edit'),
+            // Labels
+            label: item.querySelector('.editable > .text-edit-label'),
+            subLabel: item.querySelector('.editable > .subtext-edit-label'),
+            // Buttons
+            editBtn: item.querySelector('.edit-btn-group > .edit-btn'),
+            cancelBtn: item.querySelector('.edit-btn-group > .edit-cancel'),
+            confirmBtn: item.querySelector('.edit-btn-group > .edit-confirm'),
+            deleteBtn: item.querySelector('.delete-btn')
+        }
+
+        if (item.querySelector('.editable > .editable-title')) {
+            const titleObject = {
+                title: item.querySelector('.editable > .editable-title'),
+                titleArea: item.querySelector('.editable > .title-edit'),
+                titleLabel: item.querySelector('.editable > .title-edit-label')
+            }
+            Object.assign(elements, titleObject);
+        }
+
+        // Iterates over the elements Object
+        for (const [key, element] of Object.entries(elements)) {
+            // Changes the current element's display style to the corresponding
+            // display state value passed in by either editRule or cancelEdit function.
+            element.style.display = displayState[key];
+        }
+    }
+
+
+// Edit Rule function
+    function editRule(item) {
+        // function call passing an Object with corresponding display states
+        const displayStates = {
+            text: 'none',
+            textArea: 'block',
+            label: 'block',
+            subText: 'none',
+            subTextArea: 'block',
+            subLabel: 'block',
+            editBtn: 'none',
+            cancelBtn: 'block',
+            confirmBtn: 'block',
+            deleteBtn: 'none'
+        };
+
+        if (item.querySelector('.editable > .editable-title')) {
+            const titleStates = {
+                title: 'none',
+                titleArea: 'block',
+                titleLabel: 'block'
+            };
+
+            Object.assign(displayStates, titleStates);
+        }
+
+        toggleRuleDisplay(item, displayStates);
+
+    }    
+
+
+    function cancelEdit(item) {
+        // function call passing an Object with corresponding display states
+        const displayStates = {
+            text: 'block',
+            textArea: 'none',
+            label: 'none',
+            subText: 'block',
+            subTextArea: 'none',
+            subLabel: 'none',
+            editBtn: 'block',
+            cancelBtn: 'none',
+            confirmBtn: 'none',
+            deleteBtn: 'block'
+        }
+
+        if (item.querySelector('.editable > .editable-title')) {
+            const titleStates = {
+                title: 'block',
+                titleArea: 'none',
+                titleLabel: 'none'
+            };
+
+            Object.assign(displayStates, titleStates);
+        }
+
+        toggleRuleDisplay(item, displayStates);
+    }
+
+
+    function confirmEdit(item) {
+        const text = item.querySelector('.text-edit').value
+        const subText = item.querySelector('.subtext-edit').value
+
+        if (item.classList.contains("rule")) {
+            const ruleId = item.id;
+
+            fetch(`/edit_rule/${ruleId}`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    text: text,
+                    subtext: subText
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                cancelEdit(item);
+                item.querySelector('.editable > .editable-text').innerHTML = `${text}`;
+                item.querySelector('.editable > .editable-subtext').innerHTML = `${subText}`;
+            })
+        } else if (item.classList.contains("info")) {
+            const infoId = item.id;
+            const title = item.querySelector('.editable > .title-edit').value
+
+            fetch(`/edit_info/${infoId}`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    text: text,
+                    subtext: subText,
+                    title: title
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                cancelEdit(item);
+                item.querySelector('.editable > .editable-text').innerHTML = `${text}`;
+                item.querySelector('.editable > .editable-subtext').innerHTML = `${subText}`;
+                item.querySelector('.editable > .editable-title').innerHTML = `${title}`;
+            })
+        }
+    }
+
+
+// Delete rule function
+    function deleteItem(item) {
+        const ruleId = item.id
+
+        fetch(`/delete_rule/${ruleId}`, {
+            method: 'POST',
+            body: JSON.stringify({
+                rule_id: ruleId
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            item.remove();
+        })
+    }
+
+
+// Event delegation for edit rule function
+    document.querySelector('.list-group').addEventListener('click', function(event) {
+        const action = event.target.closest('button').dataset.action;
+        const item = event.target.closest('.list-group-item');
+
+        if (action === 'edit') {
+            editRule(item);
+        } else if (action === 'cancel') {
+            cancelEdit(item);
+        } else if (action === 'confirm') {
+            confirmEdit(item);
+        } else if (action === 'delete') {
+            deleteItem(item);
+        }
+    })
+
+
+// Sorting function
+    document.querySelector('.save-positions').addEventListener('click', function() {
+
+        let positions = []
+
+        document.querySelectorAll('.list-group-item').forEach(function(item) {
+            positions.push(item.getAttribute("id"))
+        }) 
+
+        fetch(`/edit_position`, {
+            method: 'POST',
+            body: JSON.stringify({
+                positions: positions
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+        })
+    })
+})
+
+
+// New item function
+document.querySelector('.new-rule-btn').addEventListener('click', (event) => {
+
+    if (event.target.dataset.type === "rule") {
+        console.log("new rule clicked")
+        fetch(`/add_new_rule`, {
+            method: 'POST',
+            body: JSON.stringify({
+                text: 'New rule'
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            location.reload();
+        })
+    } else if (event.target.dataset.type === "info") {
+        console.log("new info clicked")
+        fetch(`/add_new_info`, {
+            method: 'POST',
+            body: JSON.stringify({
+                title: 'New info',
+                text: 'Click the pencil',
+                subtext: 'to edit text'
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            location.reload();
+        })
+    }
+
+})

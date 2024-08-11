@@ -1,0 +1,182 @@
+#content-page {
+    max-width: 818px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0px 12px;
+}
+
+#content-title {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+#content {
+    padding: 16px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: $box-shadow;
+}
+
+#back-btn {
+    padding-left: 12px;
+    margin-bottom: 12px;
+}
+
+ul {
+    padding-left: 24px;
+}
+
+.list-group {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.list-group-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    max-width: 75%;
+    overflow-wrap: break-word;
+}
+
+.drag-btn {
+    cursor: move;
+    cursor: -webkit-grab;
+    color: $secondary-color;
+}
+
+.drag-btn:hover {
+    color: $paragraph-color;
+}
+
+.editable {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 100%;
+}
+
+.edit-btn {
+    background-color: transparent;
+    border: transparent;
+}
+
+.edit-icon {
+    color: $secondary-color;
+}
+
+.edit-btn:hover {
+    cursor: pointer;
+    .edit-icon {
+        color: $paragraph-color;
+    }
+}
+
+.edit-confirm {
+    background-color: transparent;
+    border: transparent;
+}
+
+.confirm-icon {
+    color: $secondary-color;
+}
+
+.edit-confirm:hover {
+    cursor: pointer;
+    .confirm-icon {
+        color: $paragraph-color;
+    }
+}
+
+.edit-cancel {
+    background-color: transparent;
+    border: transparent;
+}
+
+.cancel-icon {
+    color: $secondary-color;
+}
+
+.edit-cancel:hover {
+    cursor: pointer;
+    .cancel-icon {
+        color: $paragraph-color;
+    }
+}
+
+.delete-icon {
+    color: $secondary-color;
+}
+
+.delete-btn:hover {
+    cursor: pointer;
+    .delete-icon {
+        color: $paragraph-color;
+    }
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: transparent;
+}
+
+.delete-btn:hover {
+    cursor: pointer;
+    .delete-icon {
+        fill: $paragraph-color;
+    }
+}
+
+.title-edit {
+    display: none;
+}
+
+.text-edit {
+    display: none;
+}
+
+.subtext-edit {
+    display: none;
+}
+
+.editable-title {
+    display: block;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.editable-text {
+    display: block;
+    font-size: 16px;
+}
+
+.editable-subtext {
+    display: block;
+    font-size: 14px;
+}
+
+.edit-label {
+    font-size: 12px;
+    color: grey;
+}
+
+.edit-btn-group {
+    margin-left: 12px;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.btn-subtle {
+    background: $low-vis-icon-color;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+}
+
+.btn-subtle:hover {
+    cursor: pointer;
+    background: $secondary-color;
+}

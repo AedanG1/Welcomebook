@@ -1,0 +1,59 @@
+{% extends 'app/layout.html' %}
+
+{% block body %}
+
+    <div id="content-page">
+        <a href="{% url 'index' %}">
+            <span id="back-btn" class="material-symbols-outlined">
+                arrow_back
+            </span>
+        </a>
+        <h3 id="content-title">House rules</h3>
+        <div id="content">
+            <button data-type="rule" class="save-positions btn-subtle" style="margin-right: 16px;">Save order</button>
+            <button data-type="rule" class="new-rule-btn btn-subtle" style="margin-bottom: 32px;">Add new rule</button>
+            <div id="sortable" class="list-group">
+                {% for rule in rules %}
+                    <div class="list-group-item rule" id="{{ rule.id }}">
+                        <span class="drag-btn material-symbols-outlined">
+                            drag_handle
+                        </span>
+                        <div class="editable">
+                            <div class="editable-text">{{ rule.text }}</div>
+                            <label class="text-edit-label edit-label" for="text-edit" style="display: none;">Text</label>
+                            <textarea class="text-edit">{{ rule.text }}</textarea>
+                            <div class="editable-subtext">{{ rule.subtext }}</div>
+                            <label class="subtext-edit-label edit-label" for="subtext-edit" style="display: none;">Subtext</label>
+                            <textarea class="subtext-edit">{{ rule.subtext }}</textarea>
+                        </div>
+                        <div class="edit-btn-group">
+                            <button class="edit-btn" data-action="edit" style="display: block;">
+                                <span class="edit-icon material-symbols-outlined">
+                                    edit
+                                </span>
+                            </button>
+                            <button class="edit-confirm" data-action="confirm" style="display: none;">
+                                <span class="confirm-icon material-symbols-outlined">
+                                    check
+                                </span>
+                            </button>
+                            <button class="edit-cancel" data-action="cancel" style="display: none;">
+                                <span class="cancel-icon material-symbols-outlined">
+                                    close
+                                </span>
+                            </button>
+                        </div>
+                        <button class="delete-btn" data-action="delete">
+                            <span class="delete-icon material-symbols-outlined">
+                                delete
+                            </span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script src="static/app/js/Sortable.min.js"></script>
+    <script src="static/app/js/main.js"></script>
+
+{% endblock %}
