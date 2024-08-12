@@ -127,11 +127,8 @@ ul {
 .drag-btn {
   cursor: move;
   cursor: -webkit-grab;
-  color: #D6DCC6;
-}
-
-.drag-btn:hover {
   color: #464A3B;
+  padding-left: 6px;
 }
 
 .editable {
@@ -147,14 +144,7 @@ ul {
 }
 
 .edit-icon {
-  color: #D6DCC6;
-}
-
-.edit-btn:hover {
-  cursor: pointer;
-}
-.edit-btn:hover .edit-icon {
-  color: #464A3B;
+  color: #7882DF;
 }
 
 .edit-confirm {
@@ -163,14 +153,7 @@ ul {
 }
 
 .confirm-icon {
-  color: #D6DCC6;
-}
-
-.edit-confirm:hover {
-  cursor: pointer;
-}
-.edit-confirm:hover .confirm-icon {
-  color: #464A3B;
+  color: #5D9459;
 }
 
 .edit-cancel {
@@ -179,25 +162,7 @@ ul {
 }
 
 .cancel-icon {
-  color: #D6DCC6;
-}
-
-.edit-cancel:hover {
-  cursor: pointer;
-}
-.edit-cancel:hover .cancel-icon {
-  color: #464A3B;
-}
-
-.delete-icon {
-  color: #D6DCC6;
-}
-
-.delete-btn:hover {
-  cursor: pointer;
-}
-.delete-btn:hover .delete-icon {
-  color: #464A3B;
+  color: #D94343;
 }
 
 .delete-btn {
@@ -205,11 +170,8 @@ ul {
   border: transparent;
 }
 
-.delete-btn:hover {
-  cursor: pointer;
-}
-.delete-btn:hover .delete-icon {
-  fill: #464A3B;
+.delete-icon {
+  color: #D94343;
 }
 
 .title-edit {
@@ -233,11 +195,23 @@ ul {
 .editable-text {
   display: block;
   font-size: 16px;
+  overflow-y: scroll;
+  max-height: 80px;
+}
+
+.editable-text::-webkit-scrollbar {
+  display: none;
 }
 
 .editable-subtext {
   display: block;
   font-size: 14px;
+  overflow-y: scroll;
+  max-height: 80px;
+}
+
+.editable-subtext::-webkit-scrollbar {
+  display: none;
 }
 
 .edit-label {
@@ -246,7 +220,6 @@ ul {
 }
 
 .edit-btn-group {
-  margin-left: 12px;
   display: flex;
   gap: 8px;
   flex-direction: column;
@@ -262,6 +235,13 @@ ul {
 .btn-subtle:hover {
   cursor: pointer;
   background: #D6DCC6;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 a {

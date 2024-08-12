@@ -44,11 +44,8 @@ ul {
 .drag-btn {
     cursor: move;
     cursor: -webkit-grab;
-    color: $secondary-color;
-}
-
-.drag-btn:hover {
     color: $paragraph-color;
+    padding-left: 6px;
 }
 
 .editable {
@@ -64,14 +61,7 @@ ul {
 }
 
 .edit-icon {
-    color: $secondary-color;
-}
-
-.edit-btn:hover {
-    cursor: pointer;
-    .edit-icon {
-        color: $paragraph-color;
-    }
+    color: $edit-color;
 }
 
 .edit-confirm {
@@ -80,14 +70,7 @@ ul {
 }
 
 .confirm-icon {
-    color: $secondary-color;
-}
-
-.edit-confirm:hover {
-    cursor: pointer;
-    .confirm-icon {
-        color: $paragraph-color;
-    }
+    color: $confirm-color;
 }
 
 .edit-cancel {
@@ -96,25 +79,7 @@ ul {
 }
 
 .cancel-icon {
-    color: $secondary-color;
-}
-
-.edit-cancel:hover {
-    cursor: pointer;
-    .cancel-icon {
-        color: $paragraph-color;
-    }
-}
-
-.delete-icon {
-    color: $secondary-color;
-}
-
-.delete-btn:hover {
-    cursor: pointer;
-    .delete-icon {
-        color: $paragraph-color;
-    }
+    color: $danger-color;
 }
 
 .delete-btn {
@@ -122,11 +87,8 @@ ul {
     border: transparent;
 }
 
-.delete-btn:hover {
-    cursor: pointer;
-    .delete-icon {
-        fill: $paragraph-color;
-    }
+.delete-icon {
+    color: $danger-color;
 }
 
 .title-edit {
@@ -150,11 +112,23 @@ ul {
 .editable-text {
     display: block;
     font-size: 16px;
+    overflow-y: scroll;
+    max-height: 80px;
+}
+
+.editable-text::-webkit-scrollbar{
+    display: none;
 }
 
 .editable-subtext {
     display: block;
     font-size: 14px;
+    overflow-y: scroll;
+    max-height: 80px;
+}
+
+.editable-subtext::-webkit-scrollbar{
+    display: none;
 }
 
 .edit-label {
@@ -163,7 +137,6 @@ ul {
 }
 
 .edit-btn-group {
-    margin-left: 12px;
     display: flex;
     gap: 8px;
     flex-direction: column;
@@ -179,4 +152,11 @@ ul {
 .btn-subtle:hover {
     cursor: pointer;
     background: $secondary-color;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
 }
