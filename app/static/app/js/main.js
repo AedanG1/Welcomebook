@@ -156,21 +156,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-// Delete rule function
+// Delete item function
     function deleteItem(item) {
-        const ruleId = item.id
+        const itemId = item.id
 
-        fetch(`/delete_rule/${ruleId}`, {
-            method: 'POST',
-            body: JSON.stringify({
-                rule_id: ruleId
+        if (item.classList.contains('rule')) {
+            fetch(`/delete_rule/${itemId}`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    rule_id: itemId
+                })
             })
-        })
-        .then(response => response.text())
-        .then(data => {
-            console.log(data);
-            item.remove();
-        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                item.remove();
+            })
+        } else if (item.classList.contains('info')) {
+            fetch(`/delete_info/${itemId}`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    info_id: itemId
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                item.remove();
+            })
+        }
     }
 
 // Remove image function

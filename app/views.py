@@ -164,5 +164,19 @@ def upload_image(request, info_id):
     else:
         return redirect('information_admin')
 
-# TODO: delete_info
+
+@csrf_exempt
+def delete_info(request, info_id):
+    info = Information.objects.get(pk=info_id)
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        if data.get("info_id") is not None:
+            info.delete()
+            return JsonResponse({
+                "success": "info deleted"
+            }, status=200)
+    else:
+        return JsonResponse({
+            "error": "POST method required"
+        })
 # TODO: edit_info_positions
