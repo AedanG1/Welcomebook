@@ -84,13 +84,22 @@ def edit_rule(request, rule_id):
 def edit_position(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        for index, rule_id in enumerate(data["positions"]):
-            rule = Rule.objects.get(pk=rule_id)
-            rule.position = index
-            rule.save()
-        return JsonResponse({
-            "success": "Order saved"
-        }, status=200)
+        if data.get("type") == "rule":
+            for index, rule_id in enumerate(data["positions"]):
+                rule = Rule.objects.get(pk=rule_id)
+                rule.position = index
+                rule.save()
+            return JsonResponse({
+                "success": "Rule order saved"
+            }, status=200)
+        if data.get("type") == "info":
+            for index, info_id in enumerate(data["positions"]):
+                info = Information.objects.get(pk=info_id)
+                info.position = index
+                info.save()
+            return JsonResponse({
+                "success": "Info order saved"
+            }, status=200)
     else:
         return JsonResponse({
             "error": "POST request required"
@@ -179,4 +188,6 @@ def delete_info(request, info_id):
         return JsonResponse({
             "error": "POST method required"
         })
+
+
 # TODO: edit_info_positions

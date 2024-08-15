@@ -19,6 +19,10 @@ class Information(models.Model):
     text = models.CharField(max_length=300)
     subtext = models.CharField(max_length=300, blank=True)
     image = models.ImageField(upload_to='info_pics/', blank=True)
+    position = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ["position"]
     
     def __str__(self):
         return f"{self.title}"

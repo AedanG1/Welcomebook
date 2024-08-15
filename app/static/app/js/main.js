@@ -227,6 +227,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Sorting function
     document.querySelector('.save-positions').addEventListener('click', function() {
+        let type
+        if (this.dataset.type === 'rule') {
+            type = 'rule'
+        } else if (this.dataset.type === 'info') {
+            type = 'info'
+        }
 
         let positions = []
 
@@ -237,7 +243,8 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(`/edit_position`, {
             method: 'POST',
             body: JSON.stringify({
-                positions: positions
+                positions: positions,
+                type: type
             })
         })
         .then(response => response.text())
