@@ -13,3 +13,12 @@ class RuleForm(ModelForm):
             "text": "Text",
             "subtext": "Subtext"
         }
+
+class ImageUploadForm(ModelForm):
+    class Meta:
+        model = Information
+        fields = ["image"]
+        
+        labels = {
+            "image": ""
+        }

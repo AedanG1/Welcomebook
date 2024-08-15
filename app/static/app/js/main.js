@@ -26,16 +26,18 @@ document.addEventListener('DOMContentLoaded', function() {
             editBtn: item.querySelector('.edit-btn-group > .edit-btn'),
             cancelBtn: item.querySelector('.edit-btn-group > .edit-cancel'),
             confirmBtn: item.querySelector('.edit-btn-group > .edit-confirm'),
-            deleteBtn: item.querySelector('.delete-btn')
+            deleteBtn: item.querySelector('.delete-btn'),
         }
 
-        if (item.querySelector('.editable > .editable-title')) {
-            const titleObject = {
+        if (item.classList.contains('info')) {
+            const infoObject = {
                 title: item.querySelector('.editable > .editable-title'),
                 titleArea: item.querySelector('.editable > .title-edit'),
-                titleLabel: item.querySelector('.editable > .title-edit-label')
+                titleLabel: item.querySelector('.editable > .title-edit-label'),
+                imgForm: item.querySelector('.editable > .img-form'),
+                imgRemove: item.querySelector('.editable > .img-remove')
             }
-            Object.assign(elements, titleObject);
+            Object.assign(elements, infoObject);
         }
 
         // Iterates over the elements Object
@@ -60,17 +62,18 @@ document.addEventListener('DOMContentLoaded', function() {
             editBtn: 'none',
             cancelBtn: 'block',
             confirmBtn: 'block',
-            deleteBtn: 'none'
+            deleteBtn: 'none',
         };
 
-        if (item.querySelector('.editable > .editable-title')) {
-            const titleStates = {
+        if (item.classList.contains('info')) {
+            const infoStates = {
                 title: 'none',
                 titleArea: 'block',
-                titleLabel: 'block'
+                titleLabel: 'block',
+                imgRemove: 'block',
+                imgForm: 'flex'
             };
-
-            Object.assign(displayStates, titleStates);
+            Object.assign(displayStates, infoStates);
         }
 
         toggleRuleDisplay(item, displayStates);
@@ -93,14 +96,15 @@ document.addEventListener('DOMContentLoaded', function() {
             deleteBtn: 'block'
         }
 
-        if (item.querySelector('.editable > .editable-title')) {
-            const titleStates = {
+        if (item.classList.contains('info')) {
+            const infoStates = {
                 title: 'block',
                 titleArea: 'none',
-                titleLabel: 'none'
+                titleLabel: 'none',
+                imgRemove: 'none',
+                imgForm: 'none'
             };
-
-            Object.assign(displayStates, titleStates);
+            Object.assign(displayStates, infoStates);
         }
 
         toggleRuleDisplay(item, displayStates);
@@ -169,8 +173,26 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
+// Remove image function
+    function removeImage(item) {
+        const infoId = item.id
+        const infoImg = item.querySelector('.editable > img')
 
-// Event delegation for edit rule function
+        fetch(`/edit_info/${infoId}`, {
+            method: 'POST',
+            body: JSON.stringify({
+                remove_img: true
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            infoImg.remove();
+        })
+    }
+
+
+// Event delegation for edit item
     document.querySelector('.list-group').addEventListener('click', function(event) {
         const action = event.target.closest('button').dataset.action;
         const item = event.target.closest('.list-group-item');
@@ -183,6 +205,8 @@ document.addEventListener('DOMContentLoaded', function() {
             confirmEdit(item);
         } else if (action === 'delete') {
             deleteItem(item);
+        } else if (action === 'rmv-img') {
+            removeImage(item);
         }
     })
 

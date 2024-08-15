@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .forms import RuleForm
+from .forms import RuleForm, ImageUploadForm
 
 import json
 
@@ -99,8 +99,10 @@ def edit_position(request):
  
 def information_admin(request):
     infos = Information.objects.all()
+    form = ImageUploadForm
     context = {
-        "infos": infos
+        "infos": infos,
+        "form": form
     }
     return render(request, "app/information_admin.html", context)
 
@@ -118,6 +120,12 @@ def edit_info(request, info_id):
             info.save()
             return JsonResponse({
                 "success": "Changes saved"
+            }, status=200)
+        if data.get("remove_img") is not None:
+            info.image = None
+            info.save()
+            return JsonResponse({
+                "success": "Image removed"
             }, status=200)
     else:
         return JsonResponse({
@@ -144,3 +152,17 @@ def add_new_info(request):
         return JsonResponse({
             "error": "POST request required"
         }, status=400)
+
+
+def upload_image(request, info_id):
+    info = Information.objects.get(pk=info_id)
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES, instance=info)
+        if form.is_valid():
+            form.save()
+            return redirect('information_admin')
+    else:
+        return redirect('information_admin')
+
+# TODO: delete_info
+# TODO: edit_info_positions

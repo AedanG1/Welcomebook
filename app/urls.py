@@ -15,5 +15,6 @@ urlpatterns = [
     path("edit_rule/<int:rule_id>", views.edit_rule, name="edit_rule"),
     path("edit_position", views.edit_position, name="edit_position"),
     path("edit_info/<int:info_id>", views.edit_info, name="edit_info"),
-    path("add_new_info", views.add_new_info, name="add_new_info")
+    path("add_new_info", views.add_new_info, name="add_new_info"),
+    path("upload_image/<int:info_id>", views.upload_image, name="upload_image")
 ]

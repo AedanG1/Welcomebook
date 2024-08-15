@@ -52,10 +52,14 @@
                         <div class="editable-subtext">{{ info.subtext }}</div>
                         <label class="subtext-edit-label edit-label" for="subtext-edit" style="display: none;">Subtext</label>
                         <textarea class="subtext-edit">{{ info.subtext }}</textarea>
+                        <form action="{% url 'upload_image' info.id %}" method="post" class="img-form" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form }}
+                            <button type="submit">Upload</button>
+                        </form>
+                        <button class="img-remove" data-action="rmv-img" style="display: none;">Remove current image</button>
                         {% if info.image %}
                             <img src="{{ info.image.url }}">
-                            <p>{{ info.image.url }}</p>
-                            <input type="file">
                         {% endif %}
                     </div>
                 </div>
