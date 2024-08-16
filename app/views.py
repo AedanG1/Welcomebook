@@ -23,20 +23,62 @@ def house_rules_admin(request):
     return render(request, "app/house_rules_admin.html", context)
 
 
+def eats_admin(request):
+    eats = Eats.objects.all()
+    form = EatsImageForm
+    context = {
+       "form": form,
+       "eats": eats 
+    }
+    return render(request, "app/eats_admin.html", context)
+
+
+def information_admin(request):
+    infos = Information.objects.all()
+    form = InfoImageForm
+    context = {
+        "infos": infos,
+        "form": form
+    }
+    return render(request, "app/information_admin.html", context)
+
+
 @csrf_exempt
-def add_new_rule(request):
-    rules_total = Rule.objects.all().count()
+def add_new_item(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        if data.get("text") is not None:
+        type = data.get("type")
+        if type == "rule":
+            rules_total = Rule.objects.all().count()
             new_rule = Rule(
-                text = data["text"],
+                text = "New rule",
+                subtext = "rule",
                 position = rules_total + 1
             )
             new_rule.save()
-            return JsonResponse({
-                "success": "Added new rule"
-            }, status=200)
+        elif type == "info":
+            info_total = Information.objects.all().count()
+            new_info = Information(
+                title = "New info",
+                text = "information",
+                subtext = "subtext",
+                position = info_total + 1
+            )
+            new_info.save()
+        elif type == "eats":
+            eats_total = Eats.objects.all().count()
+            new_eats = Eats(
+                title = "New restaurant",
+                drive_time = 1,
+                text = "description",
+                website = "example.com",
+                phone = 123456789,
+                position = eats_total + 1 
+            )
+            new_eats.save()
+        return JsonResponse({
+            "success": "New item created"
+        }, status=200)
     else:
         return JsonResponse({
             "error": "POST request required"
@@ -44,36 +86,20 @@ def add_new_rule(request):
 
 
 @csrf_exempt
-def delete_rule(request, rule_id):
-    rule = Rule.objects.get(pk=rule_id)    
-
-    if request.method == "POST":
+def delete_item(request, item_id):
+    if request.method == 'POST':
         data = json.loads(request.body)
-        if data.get("rule_id") is not None:
-            rule.delete()
-            return JsonResponse({
-                "success": "Deleted"
-            }, status=200)
-    else:
+        type = data.get("type")
+        if type == 'rule':
+            item = Rule.objects.get(pk=item_id)
+        elif type == 'info':
+            item = Information.objects.get(pk=item_id)
+        elif type == 'eats':
+            item = Eats.objects.get(pk=item_id)
+        item.delete()
         return JsonResponse({
-            "error": "POST request required"
-        }, status=400)        
-
-
-@csrf_exempt
-def edit_rule(request, rule_id):
-    rule = Rule.objects.get(pk=rule_id)
-
-    if request.method == "POST":
-        data = json.loads(request.body)
-        if data.get("text") is not None:
-            rule.text = data["text"]
-            rule.subtext = data.get("subtext", "")
-            rule.save()
-            return JsonResponse({
-                "success": "Changes saved"
-            }, status=200)
-            
+            "success": "item deleted"
+        }, status=200)
     else:
         return JsonResponse({
             "error": "POST request required"
@@ -100,26 +126,53 @@ def edit_position(request):
             return JsonResponse({
                 "success": "Info order saved"
             }, status=200)
+        if data.get("type") == "eats":
+            for index, eats_id in enumerate(data["positions"]):
+                eats = Eats.objects.get(pk=eats_id)
+                eats.position = index
+                eats.save()
+            return JsonResponse({
+                "success": "Eats order saved"
+            }, status=200)
     else:
         return JsonResponse({
             "error": "POST request required"
         }, status=400)
 
- 
-def information_admin(request):
-    infos = Information.objects.all()
-    form = InfoImageForm
-    context = {
-        "infos": infos,
-        "form": form
-    }
-    return render(request, "app/information_admin.html", context)
 
+def upload_image(request, info_id):
+    info = Information.objects.get(pk=info_id)
+    if request.method == 'POST':
+        form = InfoImageForm(request.POST, request.FILES, instance=info)
+        if form.is_valid():
+            form.save()
+            return redirect('information_admin')
+    else:
+        return redirect('information_admin')
+
+
+@csrf_exempt
+def edit_rule(request, rule_id):
+    rule = Rule.objects.get(pk=rule_id)
+
+    if request.method == "POST":
+        data = json.loads(request.body)
+        if data.get("text") is not None:
+            rule.text = data["text"]
+            rule.subtext = data.get("subtext", "")
+            rule.save()
+            return JsonResponse({
+                "success": "Changes saved"
+            }, status=200)
+            
+    else:
+        return JsonResponse({
+            "error": "POST request required"
+        }, status=400)
 
 @csrf_exempt
 def edit_info(request, info_id):
     info = Information.objects.get(pk=info_id)
-
     if request.method == "POST":
         data = json.loads(request.body)
         if data.get("text") is not None:
@@ -140,61 +193,3 @@ def edit_info(request, info_id):
         return JsonResponse({
             "error": "PUT request required"
         }, status=400)
-    
-
-@csrf_exempt
-def add_new_info(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        if data.get("title") is not None:
-            new_info = Information(
-                title = data["title"],
-                text = data["text"],
-                subtext = data["subtext"]
-            )
-            new_info.save()
-            return JsonResponse({
-                "success": "New info added"
-            })
-        
-    else:
-        return JsonResponse({
-            "error": "POST request required"
-        }, status=400)
-
-
-def upload_image(request, info_id):
-    info = Information.objects.get(pk=info_id)
-    if request.method == 'POST':
-        form = InfoImageForm(request.POST, request.FILES, instance=info)
-        if form.is_valid():
-            form.save()
-            return redirect('information_admin')
-    else:
-        return redirect('information_admin')
-
-
-@csrf_exempt
-def delete_info(request, info_id):
-    info = Information.objects.get(pk=info_id)
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        if data.get("info_id") is not None:
-            info.delete()
-            return JsonResponse({
-                "success": "info deleted"
-            }, status=200)
-    else:
-        return JsonResponse({
-            "error": "POST method required"
-        })
-
-
-def eats_admin(request):
-    eats = Eats.objects.all()
-    form = EatsImageForm
-    context = {
-       "form": form,
-       "eats": eats 
-    }
-    return render(request, "app/eats_admin.html", context)

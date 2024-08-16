@@ -237,32 +237,27 @@ document.addEventListener('DOMContentLoaded', function() {
 // Delete item function
     function deleteItem(item) {
         const itemId = item.id
-
+        let type
         if (item.classList.contains('rule')) {
-            fetch(`/delete_rule/${itemId}`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    rule_id: itemId
-                })
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-                item.remove();
-            })
+            type = 'rule'
         } else if (item.classList.contains('info')) {
-            fetch(`/delete_info/${itemId}`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    info_id: itemId
-                })
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-                item.remove();
-            })
+            type = 'info'
+        } else if (item.classList.contains('eats')) {
+            type = 'eats'
         }
+
+        fetch(`/delete_item/${itemId}`, {
+            method: 'POST',
+            body: JSON.stringify({
+                type: type,
+                itemId: itemId
+            })
+        })
+        .then (response => response.text())
+        .then (data => {
+            console.log(data)
+            item.remove()
+        })
     }
 
 // Remove image function
@@ -306,10 +301,17 @@ document.addEventListener('DOMContentLoaded', function() {
 // Sorting function
     document.querySelector('.save-positions').addEventListener('click', function() {
         let type
-        if (this.dataset.type === 'rule') {
-            type = 'rule'
-        } else if (this.dataset.type === 'info') {
-            type = 'info'
+        let dataType = this.dataset.type
+        switch(dataType) {
+            case 'rule':
+                type = 'rule'
+                break;
+            case 'info':
+                type = 'info'
+                break;
+            case 'eats':
+                type = 'eats'
+                break;
         }
 
         let positions = []
@@ -334,36 +336,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // New item function
-document.querySelector('.new-rule-btn').addEventListener('click', (event) => {
+document.querySelector('.new-item-btn').addEventListener('click', (event) => {
 
-    if (event.target.dataset.type === "rule") {
-        console.log("new rule clicked")
-        fetch(`/add_new_rule`, {
-            method: 'POST',
-            body: JSON.stringify({
-                text: 'New rule'
-            })
-        })
-        .then(response => response.text())
-        .then(data => {
-            console.log(data);
-            location.reload();
-        })
-    } else if (event.target.dataset.type === "info") {
-        console.log("new info clicked")
-        fetch(`/add_new_info`, {
-            method: 'POST',
-            body: JSON.stringify({
-                title: 'New info',
-                text: 'Click the pencil',
-                subtext: 'to edit text'
-            })
-        })
-        .then(response => response.text())
-        .then(data => {
-            console.log(data);
-            location.reload();
-        })
+    let type
+    let dataType = event.target.dataset.type
+    switch(dataType) {
+        case 'rule':
+            type = 'rule'
+            break;
+        case 'info':
+            type = 'info'
+            break;
+        case 'eats':
+            type = 'eats'
+            break;
     }
+    fetch(`/add_new_item`, {
+        method: 'POST',
+        body: JSON.stringify({
+            type: type
+        })
+    })
+    .then (response => response.text())
+    .then (data => {
+        console.log(data);
+        location.reload();
+    })
 
 })
