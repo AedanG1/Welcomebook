@@ -184,3 +184,24 @@ def edit_info(request, info_id):
         return JsonResponse({
             "error": "PUT request required"
         }, status=400)
+    
+
+@csrf_exempt
+def edit_eats(request, eats_id):
+    eats = Eats.objects.get(pk=eats_id)
+    if request.method == "POST":
+        data = json.loads(request.body)
+        if data.get("text") is not None:
+            eats.title = data["title"]
+            eats.drive_time = data["drive"]
+            eats.text = data["text"]
+            eats.website = data["website"]
+            eats.phone = data["phone"]
+            eats.save()
+            return JsonResponse({
+                "success": "Changes saved"
+            }, status=200)
+    else:
+        return JsonResponse({
+            "error": "POST request required"
+        }, status=400)

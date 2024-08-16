@@ -10,11 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
 // Format Phone-numbers
 
-    document.querySelectorAll('.phone-number').forEach(function(phoneNumber) {
+    document.querySelectorAll('.phone-number').forEach((phoneNumber) => {
+        formatNumber(phoneNumber)
+    })
+
+    function formatNumber(phoneNumber) {
         let formattedNumber = phoneNumber.innerHTML.replace(/(\d{3})(\d{3})(\d{4})/, `($1) $2-$3`);
         phoneNumber.innerHTML = formattedNumber
-        console.log(formattedNumber)
-    })
+    }
 
 // Toggle Rule display function
     function toggleRuleDisplay(item, displayState) {
@@ -254,9 +257,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 cancelEdit(item);
                 item.querySelector('.editable > .editable-title').innerHTML = `${title}`;
                 item.querySelector('.editable > .editable-text').innerHTML = `${text}`;
-                item.querySelector('.editable > .editable-drive').innerHTML = `${drive}`;
-                item.querySelector('.editable > .editable-website').innerHTML = `${website}`;
-                item.querySelector('.editable > .editable-phone').innerHTML = `${phone}`;
+                item.querySelector('.editable > .editable-drive').innerHTML = `${drive} minute drive`;
+                item.querySelector('.editable > .editable-website > .website').innerHTML = `${website}`;
+                item.querySelector('.editable > .editable-phone > .phone-number').innerHTML = `${phone}`;
+                formatNumber(item.querySelector('.editable > .editable-phone > .phone-number'));
             })
         }
     }
