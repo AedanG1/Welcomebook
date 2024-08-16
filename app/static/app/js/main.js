@@ -8,6 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
         animation: 150
     });
     
+// Format Phone-numbers
+    if (document.querySelector('.phone-number')) {
+        document.querySelectorAll('.phone-number').forEach((phoneNumber) => {
+            let formattedNumber = phoneNumber.innerHTML.replace(/(\d{3})(\d{3})(\d{4})/, `($1) $2-$3`);
+            phoneNumber.innerHTML = formattedNumber
+        })
+    }
 
 // Toggle Rule display function
     function toggleRuleDisplay(item, displayState) {

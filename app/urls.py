@@ -8,6 +8,7 @@ urlpatterns = [
     # ADMIN pages
     path("house_rules_admin", views.house_rules_admin, name="house_rules_admin"),
     path("information_admin", views.information_admin, name="information_admin"),
+    path("eats_admin", views.eats_admin, name="eats_admin"),
 
     # API routes
     path("add_new_rule", views.add_new_rule, name="add_new_rule"),

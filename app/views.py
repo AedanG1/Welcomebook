@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Rule, Information
+from .models import Rule, Information, Eats
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -190,4 +190,9 @@ def delete_info(request, info_id):
         })
 
 
-# TODO: edit_info_positions
+def eats_admin(request):
+    eats = Eats.objects.all()
+    context = {
+       "eats": eats 
+    }
+    return render(request, "app/eats_admin.html", context)

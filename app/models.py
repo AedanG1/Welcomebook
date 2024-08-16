@@ -13,6 +13,7 @@ class Rule(models.Model):
     def __str__(self):
         return f"#{self.position}: {self.text}"
 
+
 class Information(models.Model):
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=300)
@@ -27,3 +28,19 @@ class Information(models.Model):
     def __str__(self):
         return f"{self.title}"
     
+
+class Eats(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=300)
+    drive_time = models.IntegerField()
+    text = models.CharField(max_length=300)
+    website = models.CharField(max_length=300, blank=True)
+    phone = models.IntegerField()
+    position = models.PositiveIntegerField()
+    image = models.ImageField(upload_to='eats_pics/', blank=True)
+
+    class Meta:
+        ordering = ["position"]
+
+    def __str__(self):
+        return f"{self.title}"

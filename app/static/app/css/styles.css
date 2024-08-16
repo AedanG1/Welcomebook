@@ -186,6 +186,24 @@ ul {
   display: none;
 }
 
+.drive-edit {
+  display: none;
+}
+
+.website-edit {
+  display: none;
+}
+
+.phone-edit {
+  display: none;
+}
+
+.editable-drive {
+  display: block;
+  font-size: 12px;
+  color: #636758;
+}
+
 .editable-title {
   display: block;
   font-weight: 500;
