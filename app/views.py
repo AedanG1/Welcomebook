@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .forms import RuleForm, ImageUploadForm
+from .forms import RuleForm, InfoImageForm, EatsImageForm
 
 import json
 
@@ -108,7 +108,7 @@ def edit_position(request):
  
 def information_admin(request):
     infos = Information.objects.all()
-    form = ImageUploadForm
+    form = InfoImageForm
     context = {
         "infos": infos,
         "form": form
@@ -166,7 +166,7 @@ def add_new_info(request):
 def upload_image(request, info_id):
     info = Information.objects.get(pk=info_id)
     if request.method == 'POST':
-        form = ImageUploadForm(request.POST, request.FILES, instance=info)
+        form = InfoImageForm(request.POST, request.FILES, instance=info)
         if form.is_valid():
             form.save()
             return redirect('information_admin')
@@ -192,7 +192,9 @@ def delete_info(request, info_id):
 
 def eats_admin(request):
     eats = Eats.objects.all()
+    form = EatsImageForm
     context = {
+       "form": form,
        "eats": eats 
     }
     return render(request, "app/eats_admin.html", context)

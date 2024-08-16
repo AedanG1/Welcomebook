@@ -20,20 +20,31 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleRuleDisplay(item, displayState) {
         // Object of elements to be changed
         const elements = {
-            // Default text
-            text: item.querySelector('.editable > .editable-text'),
-            textArea: item.querySelector('.editable > .text-edit'),
-            // Sub text
-            subText: item.querySelector('.editable > .editable-subtext'),
-            subTextArea: item.querySelector('.editable > .subtext-edit'),
-            // Labels
-            label: item.querySelector('.editable > .text-edit-label'),
-            subLabel: item.querySelector('.editable > .subtext-edit-label'),
             // Buttons
             editBtn: item.querySelector('.edit-btn-group > .edit-btn'),
             cancelBtn: item.querySelector('.edit-btn-group > .edit-cancel'),
             confirmBtn: item.querySelector('.edit-btn-group > .edit-confirm'),
             deleteBtn: item.querySelector('.delete-btn'),
+        }
+
+        // Default text
+        if (item.querySelector('.editable > .editable-text')) {
+            const textObject = {
+                text: item.querySelector('.editable > .editable-text'),
+                textArea: item.querySelector('.editable > .text-edit'),
+                label: item.querySelector('.editable > .text-edit-label'),
+            }
+            Object.assign(elements, textObject);
+        }
+
+        // Sub text
+        if (item.querySelector('.editable > .editable-subtext')) {
+            const subTextObject = {
+                subText: item.querySelector('.editable > .editable-subtext'),
+                subTextArea: item.querySelector('.editable > .subtext-edit'),
+                subLabel: item.querySelector('.editable > .subtext-edit-label'),
+            }
+            Object.assign(elements, subTextObject);
         }
 
         if (item.classList.contains('info')) {
@@ -45,6 +56,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 imgRemove: item.querySelector('.editable > .img-remove')
             }
             Object.assign(elements, infoObject);
+        }
+
+        if (item.classList.contains('eats')) {
+            const eatsObject = {
+                title: item.querySelector('.editable > .editable-title'),
+                titleArea: item.querySelector('.editable > .title-edit'),
+                titleLabel: item.querySelector('.editable > .title-edit-label'),
+                imgForm: item.querySelector('.editable > .img-form'),
+                imgRemove: item.querySelector('.editable > .img-remove'),
+                drive: item.querySelector('.editable > .editable-drive'),
+                driveArea: item.querySelector('.editable > .drive-edit'),
+                driveLabel: item.querySelector('.editable > .drive-edit-label'),
+                website: item.querySelector('.editable > .editable-website'),
+                websiteArea: item.querySelector('.editable > .website-edit'),
+                websiteLabel: item.querySelector('.editable > .website-edit-label'),
+                phone: item.querySelector('.editable > .editable-phone'),
+                phoneArea: item.querySelector('.editable > .phone-edit'),
+                phoneLabel: item.querySelector('.editable > .phone-edit-label')
+            }
+            Object.assign(elements, eatsObject);
         }
 
         // Iterates over the elements Object
@@ -83,6 +114,26 @@ document.addEventListener('DOMContentLoaded', function() {
             Object.assign(displayStates, infoStates);
         }
 
+        if (item.classList.contains('eats')) {
+            const eatsStates = {
+                title: 'none',
+                titleArea: 'block',
+                titleLabel: 'block',
+                imgRemove: 'block',
+                imgForm: 'flex',
+                drive: 'none',
+                driveArea: 'block',
+                driveLabel: 'block',
+                website: 'none',
+                websiteArea: 'block',
+                websiteLabel: 'block',
+                phone: 'none',
+                phoneArea: 'block',
+                phoneLabel: 'block'
+            }
+            Object.assign(displayStates, eatsStates)
+        }
+
         toggleRuleDisplay(item, displayStates);
 
     }    
@@ -112,6 +163,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 imgForm: 'none'
             };
             Object.assign(displayStates, infoStates);
+        }
+
+        if (item.classList.contains('eats')) {
+            const eatsStates = {
+                title: 'block',
+                titleArea: 'none',
+                titleLabel: 'none',
+                imgRemove: 'none',
+                imgForm: 'none',
+                drive: 'block',
+                driveArea: 'none',
+                driveLabel: 'none',
+                website: 'block',
+                websiteArea: 'none',
+                websiteLabel: 'none',
+                phone: 'block',
+                phoneArea: 'none',
+                phoneLabel: 'none'
+            }
+            Object.assign(displayStates, eatsStates);
         }
 
         toggleRuleDisplay(item, displayStates);
