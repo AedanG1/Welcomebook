@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
 // Format Phone-numbers
-    if (document.querySelector('.phone-number')) {
-        document.querySelectorAll('.phone-number').forEach((phoneNumber) => {
-            let formattedNumber = phoneNumber.innerHTML.replace(/(\d{3})(\d{3})(\d{4})/, `($1) $2-$3`);
-            phoneNumber.innerHTML = formattedNumber
-        })
-    }
+
+    document.querySelectorAll('.phone-number').forEach(function(phoneNumber) {
+        let formattedNumber = phoneNumber.innerHTML.replace(/(\d{3})(\d{3})(\d{4})/, `($1) $2-$3`);
+        phoneNumber.innerHTML = formattedNumber
+        console.log(formattedNumber)
+    })
 
 // Toggle Rule display function
     function toggleRuleDisplay(item, displayState) {
@@ -190,11 +190,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function confirmEdit(item) {
-        const text = item.querySelector('.text-edit').value
-        const subText = item.querySelector('.subtext-edit').value
+        const text = item.querySelector('.text-edit').value;
 
         if (item.classList.contains("rule")) {
             const ruleId = item.id;
+            const subText = item.querySelector('.subtext-edit').value;
 
             fetch(`/edit_rule/${ruleId}`, {
                 method: 'POST',
@@ -212,7 +212,8 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         } else if (item.classList.contains("info")) {
             const infoId = item.id;
-            const title = item.querySelector('.editable > .title-edit').value
+            const title = item.querySelector('.editable > .title-edit').value;
+            const subText = item.querySelector('.subtext-edit').value;
 
             fetch(`/edit_info/${infoId}`, {
                 method: 'POST',
@@ -229,6 +230,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.querySelector('.editable > .editable-text').innerHTML = `${text}`;
                 item.querySelector('.editable > .editable-subtext').innerHTML = `${subText}`;
                 item.querySelector('.editable > .editable-title').innerHTML = `${title}`;
+            })
+        } else if (item.classList.contains("eats")) {
+            const eatsId = item.id;
+            const title = item.querySelector('.editable > .title-edit').value;
+            const drive = item.querySelector('.editable > .drive-edit').value;
+            const website = item.querySelector('.editable > .website-edit').value;
+            const phone = item.querySelector('.editable > .phone-edit').value;
+
+            fetch(`/edit_eats/${eatsId}`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    title: title,
+                    drive: drive,
+                    text: text,
+                    website: website,
+                    phone: phone
+                })
+            })
+            .then (response => response.text())
+            .then (data => {
+                console.log(data);
+                cancelEdit(item);
+                item.querySelector('.editable > .editable-title').innerHTML = `${title}`;
+                item.querySelector('.editable > .editable-text').innerHTML = `${text}`;
+                item.querySelector('.editable > .editable-drive').innerHTML = `${drive}`;
+                item.querySelector('.editable > .editable-website').innerHTML = `${website}`;
+                item.querySelector('.editable > .editable-phone').innerHTML = `${phone}`;
             })
         }
     }

@@ -72,7 +72,7 @@ def add_new_item(request):
                 drive_time = 1,
                 text = "description",
                 website = "example.com",
-                phone = 123456789,
+                phone = 1234567890,
                 position = eats_total + 1 
             )
             new_eats.save()
