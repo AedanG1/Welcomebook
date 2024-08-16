@@ -110,30 +110,21 @@ def delete_item(request, item_id):
 def edit_position(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        if data.get("type") == "rule":
-            for index, rule_id in enumerate(data["positions"]):
-                rule = Rule.objects.get(pk=rule_id)
-                rule.position = index
-                rule.save()
-            return JsonResponse({
-                "success": "Rule order saved"
-            }, status=200)
-        if data.get("type") == "info":
-            for index, info_id in enumerate(data["positions"]):
-                info = Information.objects.get(pk=info_id)
-                info.position = index
-                info.save()
-            return JsonResponse({
-                "success": "Info order saved"
-            }, status=200)
-        if data.get("type") == "eats":
-            for index, eats_id in enumerate(data["positions"]):
-                eats = Eats.objects.get(pk=eats_id)
-                eats.position = index
-                eats.save()
-            return JsonResponse({
-                "success": "Eats order saved"
-            }, status=200)
+        type = data.get("type")
+        if type == "rule":
+            item_model = Rule
+        elif type == "info":
+            item_model = Information 
+        elif type == "eats":
+            item_model = Eats
+            
+        for index, item_id in enumerate(data["positions"]):
+            item = item_model.objects.get(pk=item_id)
+            item.position = index
+            item.save()
+        return JsonResponse({
+            "success": "Eats order saved"
+        }, status=200)
     else:
         return JsonResponse({
             "error": "POST request required"
