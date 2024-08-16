@@ -2,19 +2,20 @@
 
 {% block body %}
 
+
 <div id="content-page">
     <a href="{% url 'index' %}">
         <span id="back-btn" class="material-symbols-outlined">
             arrow_back
         </span>
     </a>
-    <h3 id="content-title">Essential information</h3>    
+    <h3 id="content-title">Things to do</h3>    
     <div id="content">
-        <button data-type="info" class="save-positions btn-subtle" style="margin-right: 16px;">Save order</button>
-        <button data-type="info" class="new-item-btn btn-subtle" style="margin-bottom: 32px;">Add new info</button>
+        <button data-type="activity" class="save-positions btn-subtle" style="margin-right: 16px;">Save order</button>
+        <button data-type="activity" class="new-item-btn btn-subtle" style="margin-bottom: 32px;">Add new eats</button>
         <div id="sortable" class="list-group">
-            {% for info in infos %}
-                <div class="list-group-item info" id="{{ info.id }}">
+            {% for activity in activitys %}
+                <div class="list-group-item activity" id="{{ activity.id }}">
                     <div class="buttons">
                         <span class="drag-btn material-symbols-outlined">
                             drag_handle
@@ -43,29 +44,34 @@
                         </button>
                     </div>
                     <div class="editable">
-                        <div class="editable-title non-edit">{{ info.title }}</div>
+                        <div class="editable-title non-edit">{{ activity.title }}</div>
                         <label class="title-edit-label edit-label edit" for="title-edit" style="display: none;">Title</label>
-                        <textarea class="title-edit edit">{{ info.title }}</textarea>
+                        <textarea class="title-edit edit">{{ activity.title }}</textarea>
 
-                        <div class="editable-text non-edit">{{ info.text }}</div>
+                        <div class="editable-drive non-edit">{{ activity.drive_time }} minute drive</div>
+                        <label class="drive-edit-label edit-label edit" for="drive-edit" style="display: none;">Drive time</label>
+                        <textarea class="drive-edit edit">{{ activity.drive_time }}</textarea>
+                        
+                        <div class="editable-text non-edit">{{ activity.text }}</div>
                         <label class="text-edit-label edit-label edit" for="text-edit" style="display: none;">Text</label>
-                        <textarea class="text-edit edit">{{ info.text }}</textarea>
+                        <textarea class="text-edit edit">{{ activity.text }}</textarea>
 
-                        <div class="editable-subtext non-edit">{{ info.subtext }}</div>
-                        <label class="subtext-edit-label edit-label edit" for="subtext-edit" style="display: none;">Subtext</label>
-                        <textarea class="subtext-edit edit">{{ info.subtext }}</textarea>
+                        <div href="{{ eat.website }}" class="editable-website non-edit"><span style="color: #636758;">website: </span><a class="website" href="{{ activity.website }}">{{ activity.website }}</a></div>
+                        <label class="website-edit-label edit-label edit" for="website-edit" style="display: none;">Website</label>
+                        <textarea class="website-edit edit">{{ activity.website }}</textarea>
 
-                        <form action="{% url 'upload_image' info.id %}" method="post" class="img-form edit" enctype="multipart/form-data">
+                        <form action="{% url 'upload_image' activity.id %}" method="post" class="img-form edit" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ form }}
-                            <input hidden name="type" value="info">
                             <button type="submit">Upload</button>
                         </form>
-                        
+
                         <button class="img-remove edit" data-action="rmv-img" style="display: none;">Remove current image</button>
 
-                        {% if info.image %}
-                            <img src="{{ info.image.url }}">
+                        {% if activity.image %}
+                            <div class="non-edit" style="width: 100px; height: 100px;">
+                                <img style="max-width: 100%; max-height: 100%;" src="{{ activity.image.url }}">
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -75,5 +81,6 @@
 </div>
 <script src="static/app/js/Sortable.min.js"></script>
 <script src="static/app/js/main.js"></script>
+
 
 {% endblock %}

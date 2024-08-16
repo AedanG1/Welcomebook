@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Textarea, HiddenInput
-from .models import Rule, Information, Eats
+from .models import Rule, Information, Eats, Activity
 
 class RuleForm(ModelForm):
     class Meta:
@@ -27,6 +27,15 @@ class InfoImageForm(ModelForm):
 class EatsImageForm(ModelForm):
     class Meta:
         model = Eats
+        fields = ["image"]
+        labels = {
+            "image": ""
+        }
+
+
+class ActivityImageForm(ModelForm):
+    class Meta:
+        model = Activity
         fields = ["image"]
         labels = {
             "image": ""

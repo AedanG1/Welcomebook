@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import Rule, Information, Eats
+from .models import Rule, Information, Eats, Activity
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .forms import RuleForm, InfoImageForm, EatsImageForm
+from .forms import RuleForm, InfoImageForm, EatsImageForm, ActivityImageForm
 
 import json
 
@@ -41,6 +41,16 @@ def information_admin(request):
         "form": form
     }
     return render(request, "app/information_admin.html", context)
+
+
+def activity_admin(request):
+    activitys = Activity.objects.all()
+    form = ActivityImageForm
+    context = {
+        "activitys": activitys,
+        "form": form
+    }
+    return render(request, "app/activity_admin.html", context)
 
 
 @csrf_exempt
@@ -131,15 +141,27 @@ def edit_position(request):
         }, status=400)
 
 
-def upload_image(request, info_id):
-    info = Information.objects.get(pk=info_id)
+def upload_image(request, item_id):
     if request.method == 'POST':
-        form = InfoImageForm(request.POST, request.FILES, instance=info)
+        type = request.POST.get('type')
+        if type == 'info':
+            path = 'information_admin'
+            info = Information.objects.get(pk=item_id)
+            form = InfoImageForm(request.POST, request.FILES, instance=info)
+        elif type == 'eats':
+            path = 'eats_admin'
+            eats = Eats.objects.get(pk=item_id)
+            form = EatsImageForm(request.POST, request.FILES, instance=eats)
+        elif type == 'activity':
+            path = 'activity_admin'
+            activity = Activity.objects.get(pk=item_id)
+            form = ActivityImageForm(request.POST, request.FILES, instance=activity)
+
         if form.is_valid():
             form.save()
-            return redirect('information_admin')
+            return redirect(path)
     else:
-        return redirect('information_admin')
+        return redirect(path)
 
 
 @csrf_exempt

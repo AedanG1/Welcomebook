@@ -20,35 +20,36 @@
                                 drag_handle
                             </span>
                             <div class="edit-btn-group">
-                                <button class="edit-btn" data-action="edit" style="display: block;">
+                                <button class="edit-btn non-edit" data-action="edit" style="display: block;">
                                     <span class="edit-icon material-symbols-outlined">
                                         edit
                                     </span>
                                 </button>
-                                <button class="edit-confirm" data-action="confirm" style="display: none;">
+                                <button class="edit-confirm edit" data-action="confirm" style="display: none;">
                                     <span class="confirm-icon material-symbols-outlined">
                                         check
                                     </span>
                                 </button>
-                                <button class="edit-cancel" data-action="cancel" style="display: none;">
+                                <button class="edit-cancel edit" data-action="cancel" style="display: none;">
                                     <span class="cancel-icon material-symbols-outlined">
                                         close
                                     </span>
                                 </button>
                             </div>
-                            <button class="delete-btn" data-action="delete">
+                            <button class="delete-btn non-edit" data-action="delete">
                                 <span class="delete-icon material-symbols-outlined">
                                     delete
                                 </span>
                             </button>
                         </div>
                         <div class="editable">
-                            <div class="editable-text">{{ rule.text }}</div>
-                            <label class="text-edit-label edit-label" for="text-edit" style="display: none;">Text</label>
-                            <textarea class="text-edit">{{ rule.text }}</textarea>
-                            <div class="editable-subtext">{{ rule.subtext }}</div>
-                            <label class="subtext-edit-label edit-label" for="subtext-edit" style="display: none;">Subtext</label>
-                            <textarea class="subtext-edit">{{ rule.subtext }}</textarea>
+                            <div class="editable-text non-edit">{{ rule.text }}</div>
+                            <label class="text-edit-label edit-label edit" for="text-edit" style="display: none;">Text</label>
+                            <textarea class="text-edit edit">{{ rule.text }}</textarea>
+
+                            <div class="editable-subtext non-edit">{{ rule.subtext }}</div>
+                            <label class="subtext-edit-label edit-label edit" for="subtext-edit" style="display: none;">Subtext</label>
+                            <textarea class="subtext-edit edit">{{ rule.subtext }}</textarea>
                         </div>
                     </div>
                 {% endfor %}

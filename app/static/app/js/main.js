@@ -19,178 +19,25 @@ document.addEventListener('DOMContentLoaded', function() {
         phoneNumber.innerHTML = formattedNumber
     }
 
-// Toggle Rule display function
-    function toggleRuleDisplay(item, displayState) {
-        // Object of elements to be changed
-        const elements = {
-            // Buttons
-            editBtn: item.querySelector('.edit-btn-group > .edit-btn'),
-            cancelBtn: item.querySelector('.edit-btn-group > .edit-cancel'),
-            confirmBtn: item.querySelector('.edit-btn-group > .edit-confirm'),
-            deleteBtn: item.querySelector('.delete-btn'),
-        }
+    function editItem(item) {
+        item.querySelectorAll('.non-edit').forEach((element) => {
+            element.style.display = 'none';
+        })
 
-        // Default text
-        if (item.querySelector('.editable > .editable-text')) {
-            const textObject = {
-                text: item.querySelector('.editable > .editable-text'),
-                textArea: item.querySelector('.editable > .text-edit'),
-                label: item.querySelector('.editable > .text-edit-label'),
-            }
-            Object.assign(elements, textObject);
-        }
-
-        // Sub text
-        if (item.querySelector('.editable > .editable-subtext')) {
-            const subTextObject = {
-                subText: item.querySelector('.editable > .editable-subtext'),
-                subTextArea: item.querySelector('.editable > .subtext-edit'),
-                subLabel: item.querySelector('.editable > .subtext-edit-label'),
-            }
-            Object.assign(elements, subTextObject);
-        }
-
-        if (item.classList.contains('info')) {
-            const infoObject = {
-                title: item.querySelector('.editable > .editable-title'),
-                titleArea: item.querySelector('.editable > .title-edit'),
-                titleLabel: item.querySelector('.editable > .title-edit-label'),
-                imgForm: item.querySelector('.editable > .img-form'),
-                imgRemove: item.querySelector('.editable > .img-remove')
-            }
-            Object.assign(elements, infoObject);
-        }
-
-        if (item.classList.contains('eats')) {
-            const eatsObject = {
-                title: item.querySelector('.editable > .editable-title'),
-                titleArea: item.querySelector('.editable > .title-edit'),
-                titleLabel: item.querySelector('.editable > .title-edit-label'),
-                imgForm: item.querySelector('.editable > .img-form'),
-                imgRemove: item.querySelector('.editable > .img-remove'),
-                drive: item.querySelector('.editable > .editable-drive'),
-                driveArea: item.querySelector('.editable > .drive-edit'),
-                driveLabel: item.querySelector('.editable > .drive-edit-label'),
-                website: item.querySelector('.editable > .editable-website'),
-                websiteArea: item.querySelector('.editable > .website-edit'),
-                websiteLabel: item.querySelector('.editable > .website-edit-label'),
-                phone: item.querySelector('.editable > .editable-phone'),
-                phoneArea: item.querySelector('.editable > .phone-edit'),
-                phoneLabel: item.querySelector('.editable > .phone-edit-label')
-            }
-            Object.assign(elements, eatsObject);
-        }
-
-        // Iterates over the elements Object
-        for (const [key, element] of Object.entries(elements)) {
-            // Changes the current element's display style to the corresponding
-            // display state value passed in by either editRule or cancelEdit function.
-            element.style.display = displayState[key];
-        }
+        item.querySelectorAll('.edit').forEach((element) => {
+            element.style.display = 'block';
+        })
     }
-
-
-// Edit Rule function
-    function editRule(item) {
-        // function call passing an Object with corresponding display states
-        const displayStates = {
-            text: 'none',
-            textArea: 'block',
-            label: 'block',
-            subText: 'none',
-            subTextArea: 'block',
-            subLabel: 'block',
-            editBtn: 'none',
-            cancelBtn: 'block',
-            confirmBtn: 'block',
-            deleteBtn: 'none',
-        };
-
-        if (item.classList.contains('info')) {
-            const infoStates = {
-                title: 'none',
-                titleArea: 'block',
-                titleLabel: 'block',
-                imgRemove: 'block',
-                imgForm: 'flex'
-            };
-            Object.assign(displayStates, infoStates);
-        }
-
-        if (item.classList.contains('eats')) {
-            const eatsStates = {
-                title: 'none',
-                titleArea: 'block',
-                titleLabel: 'block',
-                imgRemove: 'block',
-                imgForm: 'flex',
-                drive: 'none',
-                driveArea: 'block',
-                driveLabel: 'block',
-                website: 'none',
-                websiteArea: 'block',
-                websiteLabel: 'block',
-                phone: 'none',
-                phoneArea: 'block',
-                phoneLabel: 'block'
-            }
-            Object.assign(displayStates, eatsStates)
-        }
-
-        toggleRuleDisplay(item, displayStates);
-
-    }    
-
 
     function cancelEdit(item) {
-        // function call passing an Object with corresponding display states
-        const displayStates = {
-            text: 'block',
-            textArea: 'none',
-            label: 'none',
-            subText: 'block',
-            subTextArea: 'none',
-            subLabel: 'none',
-            editBtn: 'block',
-            cancelBtn: 'none',
-            confirmBtn: 'none',
-            deleteBtn: 'block'
-        }
+        item.querySelectorAll('.non-edit').forEach((element) => {
+            element.style.display = 'block';
+        })
 
-        if (item.classList.contains('info')) {
-            const infoStates = {
-                title: 'block',
-                titleArea: 'none',
-                titleLabel: 'none',
-                imgRemove: 'none',
-                imgForm: 'none'
-            };
-            Object.assign(displayStates, infoStates);
-        }
-
-        if (item.classList.contains('eats')) {
-            const eatsStates = {
-                title: 'block',
-                titleArea: 'none',
-                titleLabel: 'none',
-                imgRemove: 'none',
-                imgForm: 'none',
-                drive: 'block',
-                driveArea: 'none',
-                driveLabel: 'none',
-                website: 'block',
-                websiteArea: 'none',
-                websiteLabel: 'none',
-                phone: 'block',
-                phoneArea: 'none',
-                phoneLabel: 'none'
-            }
-            Object.assign(displayStates, eatsStates);
-        }
-
-        toggleRuleDisplay(item, displayStates);
+        item.querySelectorAll('.edit').forEach((element) => {
+            element.style.display = 'none';
+        })
     }
-
 
     function confirmEdit(item) {
         const text = item.querySelector('.text-edit').value;
@@ -317,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const item = event.target.closest('.list-group-item');
 
         if (action === 'edit') {
-            editRule(item);
+            editItem(item);
         } else if (action === 'cancel') {
             cancelEdit(item);
         } else if (action === 'confirm') {
