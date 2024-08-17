@@ -1,13 +1,19 @@
 from django.shortcuts import render, redirect
-from .models import Rule, Information, Eats, Activity
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from .models import Rule, Information, Eats, Activity
 
 from .forms import RuleForm, InfoImageForm, EatsImageForm, ActivityImageForm
 
 import json
 
+MODELS = {
+    "rule": Rule,
+    "info": Information,
+    "eats": Eats,
+    "activity": Activity
+}
 
 # Create your views here.
 def index(request):
@@ -96,16 +102,37 @@ def add_new_item(request):
 
 
 @csrf_exempt
+def edit_item(request, item_id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        type = data.get("type") 
+        item_model = MODELS.get(type)
+        item = item_model.objects.get(pk=item_id)
+
+        skip = True
+        for key in data:
+            if skip:
+                skip = False
+                continue
+            setattr(item, key, data[key])
+        item.save()
+
+        return JsonResponse({
+            "success": "Changes saved"
+        }, status=200)
+    else:
+        return JsonResponse({
+            "error": "POST request required"
+        }, status=400)
+
+
+@csrf_exempt
 def delete_item(request, item_id):
     if request.method == 'POST':
         data = json.loads(request.body)
         type = data.get("type")
-        if type == 'rule':
-            item = Rule.objects.get(pk=item_id)
-        elif type == 'info':
-            item = Information.objects.get(pk=item_id)
-        elif type == 'eats':
-            item = Eats.objects.get(pk=item_id)
+        item_model = MODELS.get(type)
+        item = item_model.objects.get(pk=item_id)
         item.delete()
         return JsonResponse({
             "success": "item deleted"
@@ -121,12 +148,7 @@ def edit_position(request):
     if request.method == "POST":
         data = json.loads(request.body)
         type = data.get("type")
-        if type == "rule":
-            item_model = Rule
-        elif type == "info":
-            item_model = Information 
-        elif type == "eats":
-            item_model = Eats
+        item_model = MODELS.get(type)
             
         for index, item_id in enumerate(data["positions"]):
             item = item_model.objects.get(pk=item_id)
@@ -162,68 +184,3 @@ def upload_image(request, item_id):
             return redirect(path)
     else:
         return redirect(path)
-
-
-@csrf_exempt
-def edit_rule(request, rule_id):
-    rule = Rule.objects.get(pk=rule_id)
-
-    if request.method == "POST":
-        data = json.loads(request.body)
-        if data.get("text") is not None:
-            rule.text = data["text"]
-            rule.subtext = data.get("subtext", "")
-            rule.save()
-            return JsonResponse({
-                "success": "Changes saved"
-            }, status=200)
-            
-    else:
-        return JsonResponse({
-            "error": "POST request required"
-        }, status=400)
-
-@csrf_exempt
-def edit_info(request, info_id):
-    info = Information.objects.get(pk=info_id)
-    if request.method == "POST":
-        data = json.loads(request.body)
-        if data.get("text") is not None:
-            info.title = data["title"]
-            info.text = data["text"]
-            info.subtext = data.get("subtext", "")
-            info.save()
-            return JsonResponse({
-                "success": "Changes saved"
-            }, status=200)
-        if data.get("remove_img") is not None:
-            info.image = None
-            info.save()
-            return JsonResponse({
-                "success": "Image removed"
-            }, status=200)
-    else:
-        return JsonResponse({
-            "error": "PUT request required"
-        }, status=400)
-    
-
-@csrf_exempt
-def edit_eats(request, eats_id):
-    eats = Eats.objects.get(pk=eats_id)
-    if request.method == "POST":
-        data = json.loads(request.body)
-        if data.get("text") is not None:
-            eats.title = data["title"]
-            eats.drive_time = data["drive"]
-            eats.text = data["text"]
-            eats.website = data["website"]
-            eats.phone = data["phone"]
-            eats.save()
-            return JsonResponse({
-                "success": "Changes saved"
-            }, status=200)
-    else:
-        return JsonResponse({
-            "error": "POST request required"
-        }, status=400)

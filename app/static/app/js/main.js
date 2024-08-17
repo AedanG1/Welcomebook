@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
         animation: 150
     });
     
-// Format Phone-numbers
 
+// Format Phone-numbers
     document.querySelectorAll('.phone-number').forEach((phoneNumber) => {
         formatNumber(phoneNumber)
     })
@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
         phoneNumber.innerHTML = formattedNumber
     }
 
+
+// Toggle Edit Functions
     function editItem(item) {
         item.querySelectorAll('.non-edit').forEach((element) => {
             element.style.display = 'none';
@@ -28,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             element.style.display = 'block';
         })
     }
+
 
     function cancelEdit(item) {
         item.querySelectorAll('.non-edit').forEach((element) => {
@@ -39,91 +42,43 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
+
+// Confirm edit function
     function confirmEdit(item) {
-        const text = item.querySelector('.text-edit').value;
+        let itemId = item.id
+        let type = item.dataset.type
 
-        if (item.classList.contains("rule")) {
-            const ruleId = item.id;
-            const subText = item.querySelector('.subtext-edit').value;
+        const userInput = item.getElementsByClassName('user-input');
+        const elements = item.getElementsByClassName('display');
+        let ruleObject = {};
+        ruleObject.type = type;
 
-            fetch(`/edit_rule/${ruleId}`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    text: text,
-                    subtext: subText
-                })
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-                cancelEdit(item);
-                item.querySelector('.editable > .editable-text').innerHTML = `${text}`;
-                item.querySelector('.editable > .editable-subtext').innerHTML = `${subText}`;
-            })
-        } else if (item.classList.contains("info")) {
-            const infoId = item.id;
-            const title = item.querySelector('.editable > .title-edit').value;
-            const subText = item.querySelector('.subtext-edit').value;
-
-            fetch(`/edit_info/${infoId}`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    text: text,
-                    subtext: subText,
-                    title: title
-                })
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-                cancelEdit(item);
-                item.querySelector('.editable > .editable-text').innerHTML = `${text}`;
-                item.querySelector('.editable > .editable-subtext').innerHTML = `${subText}`;
-                item.querySelector('.editable > .editable-title').innerHTML = `${title}`;
-            })
-        } else if (item.classList.contains("eats")) {
-            const eatsId = item.id;
-            const title = item.querySelector('.editable > .title-edit').value;
-            const drive = item.querySelector('.editable > .drive-edit').value;
-            const website = item.querySelector('.editable > .website-edit').value;
-            const phone = item.querySelector('.editable > .phone-edit').value;
-
-            fetch(`/edit_eats/${eatsId}`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    title: title,
-                    drive: drive,
-                    text: text,
-                    website: website,
-                    phone: phone
-                })
-            })
-            .then (response => response.text())
-            .then (data => {
-                console.log(data);
-                cancelEdit(item);
-                item.querySelector('.editable > .editable-title').innerHTML = `${title}`;
-                item.querySelector('.editable > .editable-text').innerHTML = `${text}`;
-                item.querySelector('.editable > .editable-drive').innerHTML = `${drive} minute drive`;
-                item.querySelector('.editable > .editable-website > .website').innerHTML = `${website}`;
-                item.querySelector('.editable > .editable-phone > .phone-number').innerHTML = `${phone}`;
-                formatNumber(item.querySelector('.editable > .editable-phone > .phone-number'));
-            })
+        for (let i = 0; i < userInput.length; i++) {
+            ruleObject[userInput[i].dataset.name] = userInput[i].value;
         }
+
+        fetch(`/edit_item/${itemId}`, {
+            method: 'POST',
+            body: JSON.stringify(ruleObject)
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            cancelEdit(item);
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].innerHTML = userInput[i].value;
+            }
+            if (item.classList.contains("eats")) {
+                formatNumber(item.querySelector('.phone-number'))
+            }
+        })
     }
 
 
 // Delete item function
     function deleteItem(item) {
         const itemId = item.id
-        let type
-        if (item.classList.contains('rule')) {
-            type = 'rule'
-        } else if (item.classList.contains('info')) {
-            type = 'info'
-        } else if (item.classList.contains('eats')) {
-            type = 'eats'
-        }
+        const type = item.dataset.type
 
         fetch(`/delete_item/${itemId}`, {
             method: 'POST',
@@ -139,7 +94,9 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
+
 // Remove image function
+// TODO: make this work for all images
     function removeImage(item) {
         const infoId = item.id
         const infoImg = item.querySelector('.editable > img')
@@ -178,20 +135,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Sorting function
-    document.querySelector('.save-positions').addEventListener('click', function() {
-        let type
-        let dataType = this.dataset.type
-        switch(dataType) {
-            case 'rule':
-                type = 'rule'
-                break;
-            case 'info':
-                type = 'info'
-                break;
-            case 'eats':
-                type = 'eats'
-                break;
-        }
+    document.querySelector('.save-positions').addEventListener('click', (event) => {
+        let type = event.target.dataset.type
 
         let positions = []
 
@@ -216,20 +161,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // New item function
 document.querySelector('.new-item-btn').addEventListener('click', (event) => {
+    let type = event.target.dataset.type
 
-    let type
-    let dataType = event.target.dataset.type
-    switch(dataType) {
-        case 'rule':
-            type = 'rule'
-            break;
-        case 'info':
-            type = 'info'
-            break;
-        case 'eats':
-            type = 'eats'
-            break;
-    }
     fetch(`/add_new_item`, {
         method: 'POST',
         body: JSON.stringify({

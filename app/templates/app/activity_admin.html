@@ -15,7 +15,7 @@
         <button data-type="activity" class="new-item-btn btn-subtle" style="margin-bottom: 32px;">Add new eats</button>
         <div id="sortable" class="list-group">
             {% for activity in activitys %}
-                <div class="list-group-item activity" id="{{ activity.id }}">
+                <div class="list-group-item activity" id="{{ activity.id }}" data-type="activity">
                     <div class="buttons">
                         <span class="drag-btn material-symbols-outlined">
                             drag_handle
@@ -44,21 +44,21 @@
                         </button>
                     </div>
                     <div class="editable">
-                        <div class="editable-title non-edit">{{ activity.title }}</div>
+                        <div class="editable-title non-edit display">{{ activity.title }}</div>
                         <label class="title-edit-label edit-label edit" for="title-edit" style="display: none;">Title</label>
-                        <textarea class="title-edit edit">{{ activity.title }}</textarea>
+                        <textarea class="title-edit edit user-input" data-name="title">{{ activity.title }}</textarea>
 
-                        <div class="editable-drive non-edit">{{ activity.drive_time }} minute drive</div>
+                        <div class="editable-drive non-edit"><span class="display">{{ activity.drive_time }}</span> minute drive</div>
                         <label class="drive-edit-label edit-label edit" for="drive-edit" style="display: none;">Drive time</label>
-                        <textarea class="drive-edit edit">{{ activity.drive_time }}</textarea>
+                        <textarea class="drive-edit edit user-input" data-name="drive_time">{{ activity.drive_time }}</textarea>
                         
-                        <div class="editable-text non-edit">{{ activity.text }}</div>
+                        <div class="editable-text non-edit display">{{ activity.text }}</div>
                         <label class="text-edit-label edit-label edit" for="text-edit" style="display: none;">Text</label>
-                        <textarea class="text-edit edit">{{ activity.text }}</textarea>
+                        <textarea class="text-edit edit user-input" data-name="text">{{ activity.text }}</textarea>
 
-                        <div href="{{ eat.website }}" class="editable-website non-edit"><span style="color: #636758;">website: </span><a class="website" href="{{ activity.website }}">{{ activity.website }}</a></div>
+                        <div href="{{ eat.website }}" class="editable-website non-edit"><span style="color: #636758;">website: </span><a class="website display" href="{{ activity.website }}">{{ activity.website }}</a></div>
                         <label class="website-edit-label edit-label edit" for="website-edit" style="display: none;">Website</label>
-                        <textarea class="website-edit edit">{{ activity.website }}</textarea>
+                        <textarea class="website-edit edit user-input" data-name="website">{{ activity.website }}</textarea>
 
                         <form action="{% url 'upload_image' activity.id %}" method="post" class="img-form edit" enctype="multipart/form-data">
                             {% csrf_token %}

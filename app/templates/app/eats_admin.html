@@ -14,62 +14,63 @@
         <button data-type="eats" class="new-item-btn btn-subtle" style="margin-bottom: 32px;">Add new eats</button>
         <div id="sortable" class="list-group">
             {% for eat in eats %}
-                <div class="list-group-item eats" id="{{ eat.id }}">
+                <div class="list-group-item eats" id="{{ eat.id }}" data-type="eats">
                     <div class="buttons">
                         <span class="drag-btn material-symbols-outlined">
                             drag_handle
                         </span>
                         <div class="edit-btn-group">
-                            <button class="edit-btn" data-action="edit" style="display: block;">
+                            <button class="edit-btn non-edit" data-action="edit" style="display: block;">
                                 <span class="edit-icon material-symbols-outlined">
                                     edit
                                 </span>
                             </button>
-                            <button class="edit-confirm" data-action="confirm" style="display: none;">
+                            <button class="edit-confirm edit" data-action="confirm" style="display: none;">
                                 <span class="confirm-icon material-symbols-outlined">
                                     check
                                 </span>
                             </button>
-                            <button class="edit-cancel" data-action="cancel" style="display: none;">
+                            <button class="edit-cancel edit" data-action="cancel" style="display: none;">
                                 <span class="cancel-icon material-symbols-outlined">
                                     close
                                 </span>
                             </button>
                         </div>
-                        <button class="delete-btn" data-action="delete">
+                        <button class="delete-btn non-edit" data-action="delete">
                             <span class="delete-icon material-symbols-outlined">
                                 delete
                             </span>
                         </button>
                     </div>
                     <div class="editable">
-                        <div class="editable-title">{{ eat.title }}</div>
-                        <label class="title-edit-label edit-label" for="title-edit" style="display: none;">Title</label>
-                        <textarea class="title-edit">{{ eat.title }}</textarea>
+                        <div class="editable-title non-edit display">{{ eat.title }}</div>
+                        <label class="title-edit-label edit-label edit" for="title-edit" style="display: none;">Title</label>
+                        <textarea class="title-edit edit user-input" data-name="title">{{ eat.title }}</textarea>
 
-                        <div class="editable-drive">{{ eat.drive_time }} minute drive</div>
-                        <label class="drive-edit-label edit-label" for="drive-edit" style="display: none;">Drive time</label>
-                        <textarea class="drive-edit">{{ eat.drive_time }}</textarea>
+                        <div class="editable-drive non-edit"><span class="display">{{ eat.drive_time }}</span> minute drive</div>
+                        <label class="drive-edit-label edit-label edit" for="drive-edit" style="display: none;">Drive time</label>
+                        <textarea class="drive-edit edit user-input" data-name="drive_time">{{ eat.drive_time }}</textarea>
                         
-                        <div class="editable-text">{{ eat.text }}</div>
-                        <label class="text-edit-label edit-label" for="text-edit" style="display: none;">Text</label>
-                        <textarea class="text-edit">{{ eat.text }}</textarea>
+                        <div class="editable-text non-edit display">{{ eat.text }}</div>
+                        <label class="text-edit-label edit-label edit" for="text-edit" style="display: none;">Text</label>
+                        <textarea class="text-edit edit user-input" data-name="text">{{ eat.text }}</textarea>
 
-                        <div href="{{ eat.website }}" class="editable-website"><span style="color: #636758;">website: </span><a class="website" href="{{ eat.website }}">{{ eat.website }}</a></div>
-                        <label class="website-edit-label edit-label" for="website-edit" style="display: none;">Website</label>
-                        <textarea class="website-edit">{{ eat.website }}</textarea>
+                        <div href="{{ eat.website }}" class="editable-website non-edit"><span style="color: #636758;">website: </span><a class="website display" href="{{ eat.website }}">{{ eat.website }}</a></div>
+                        <label class="website-edit-label edit-label edit" for="website-edit" style="display: none;">Website</label>
+                        <textarea class="website-edit edit user-input" data-name="website">{{ eat.website }}</textarea>
 
-                        <div class="editable-phone"><span style="color: #636758;">phone: </span><span class="phone-number">{{ eat.phone }}</span></div>
-                        <label class="phone-edit-label edit-label" for="phone-edit" style="display: none;">Phone (just numbers)</label>
-                        <textarea class="phone-edit">{{ eat.phone }}</textarea>
+                        <div class="editable-phone non-edit"><span style="color: #636758;">phone: </span><span class="phone-number display">{{ eat.phone }}</span></div>
+                        <label class="phone-edit-label edit-label edit" for="phone-edit" style="display: none;">Phone (just numbers)</label>
+                        <textarea class="phone-edit edit user-input" data-name="phone">{{ eat.phone }}</textarea>
 
-                        <form action="{% url 'upload_image' eat.id %}" method="post" class="img-form" enctype="multipart/form-data">
+                        <form action="{% url 'upload_image' eat.id %}" method="post" class="img-form edit" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ form }}
                             <button type="submit">Upload</button>
                         </form>
 
-                        <button class="img-remove" data-action="rmv-img" style="display: none;">Remove current image</button>
+                        <button class="img-remove edit" data-action="rmv-img" style="display: none;">Remove current image</button>
+
                         {% if eat.image %}
                             <div style="width: 100px; height: 100px;">
                                 <img style="max-width: 100%; max-height: 100%;" src="{{ eat.image.url }}">

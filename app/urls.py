@@ -12,6 +12,7 @@ urlpatterns = [
     path("activity_admin", views.activity_admin, name="activity_admin"),
 
     # API routes
+    path("edit_item/<int:item_id>", views.edit_item, name="edit_item"),
     path("edit_rule/<int:rule_id>", views.edit_rule, name="edit_rule"),
     path("edit_info/<int:info_id>", views.edit_info, name="edit_info"),
     path("edit_eats/<int:eats_id>", views.edit_eats, name="edit_eats"),
