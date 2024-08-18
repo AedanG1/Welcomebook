@@ -1,5 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+// Obtain CSRFtoken
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        mode: 'same-origin',
+    }
+
 
 // Create sortable.js list
     const sortableList = document.getElementById('sortable');
@@ -57,10 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ruleObject[userInput[i].dataset.name] = userInput[i].value;
         }
 
-        fetch(`/edit_item/${itemId}`, {
-            method: 'POST',
-            body: JSON.stringify(ruleObject)
-        })
+        const body = JSON.stringify(ruleObject);
+        fetch(`/edit_item/${itemId}`, {...requestOptions, body})
         .then(response => response.text())
         .then(data => {
             console.log(data);
@@ -77,40 +99,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Delete item function
     function deleteItem(item) {
-        const itemId = item.id
-        const type = item.dataset.type
+        const itemId = item.id;
+        const type = item.dataset.type;
 
-        fetch(`/delete_item/${itemId}`, {
-            method: 'POST',
-            body: JSON.stringify({
-                type: type,
-                itemId: itemId
-            })
-        })
+        const body = JSON.stringify({type: type});
+        fetch(`/delete_item/${itemId}`, {...requestOptions, body})
         .then (response => response.text())
         .then (data => {
-            console.log(data)
-            item.remove()
+            console.log(data);
+            item.remove();
         })
     }
 
 
 // Remove image function
-// TODO: make this work for all images
     function removeImage(item) {
-        const infoId = item.id
-        const infoImg = item.querySelector('.editable > img')
+        const type = item.dataset.type;
+        const itemId = item.id;
+        const itemImg = item.querySelector('.editable > div > img');
 
-        fetch(`/edit_info/${infoId}`, {
-            method: 'POST',
-            body: JSON.stringify({
-                remove_img: true
-            })
-        })
+        const body = JSON.stringify({type: type})
+        fetch(`/remove_image/${itemId}`, {...requestOptions, body})
         .then(response => response.text())
         .then(data => {
             console.log(data);
-            infoImg.remove();
+            itemImg.remove();
         })
     }
 
@@ -136,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Sorting function
     document.querySelector('.save-positions').addEventListener('click', (event) => {
-        let type = event.target.dataset.type
+        const type = event.target.dataset.type
 
         let positions = []
 
@@ -144,35 +157,32 @@ document.addEventListener('DOMContentLoaded', function() {
             positions.push(item.getAttribute("id"))
         }) 
 
-        fetch(`/edit_position`, {
-            method: 'POST',
-            body: JSON.stringify({
-                positions: positions,
-                type: type
-            })
+        const body = JSON.stringify({
+            positions: positions,
+            type: type
         })
+        fetch(`/edit_position`, {...requestOptions, body})
         .then(response => response.text())
         .then(data => {
             console.log(data);
         })
     })
-})
+
 
 
 // New item function
-document.querySelector('.new-item-btn').addEventListener('click', (event) => {
-    let type = event.target.dataset.type
+    document.querySelector('.new-item-btn').addEventListener('click', (event) => {
+        const type = event.target.dataset.type
 
-    fetch(`/add_new_item`, {
-        method: 'POST',
-        body: JSON.stringify({
-            type: type
+        const body = JSON.stringify({type: type})
+        fetch(`/add_new_item`, {...requestOptions, body})
+        .then (response => response.text())
+        .then (data => {
+            console.log(data);
+            location.reload();
         })
-    })
-    .then (response => response.text())
-    .then (data => {
-        console.log(data);
-        location.reload();
+
     })
 
+// end
 })

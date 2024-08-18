@@ -59,7 +59,6 @@ def activity_admin(request):
     return render(request, "app/activity_admin.html", context)
 
 
-@csrf_exempt
 def add_new_item(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -92,6 +91,16 @@ def add_new_item(request):
                 position = eats_total + 1 
             )
             new_eats.save()
+        elif type == "activity":
+            activity_total = Activity.objects.all().count()
+            new_activity = Activity(
+                title = "New activity",
+                drive_time = 1,
+                text = "description",
+                website = "example.com",
+                position = activity_total + 1
+            )
+            new_activity.save()
         return JsonResponse({
             "success": "New item created"
         }, status=200)
@@ -101,7 +110,6 @@ def add_new_item(request):
         }, status=400)
 
 
-@csrf_exempt
 def edit_item(request, item_id):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -126,7 +134,6 @@ def edit_item(request, item_id):
         }, status=400)
 
 
-@csrf_exempt
 def delete_item(request, item_id):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -143,7 +150,6 @@ def delete_item(request, item_id):
         }, status=400)
 
 
-@csrf_exempt
 def edit_position(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -184,3 +190,20 @@ def upload_image(request, item_id):
             return redirect(path)
     else:
         return redirect(path)
+
+
+def remove_image(request, item_id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        type = data.get("type")
+        item_model = MODELS.get(type)
+        item = item_model.objects.get(pk=item_id)
+        item.image = None
+        item.save()
+        return JsonResponse({
+            "success": "Image removed"
+        }, status=200)
+    else:
+        return JsonResponse({
+            "error": "POST request required"
+        }, status=400)
