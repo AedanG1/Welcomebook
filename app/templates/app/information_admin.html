@@ -44,15 +44,15 @@
                     </div>
                     <div class="editable">
                         <div class="editable-title non-edit display">{{ info.title }}</div>
-                        <label class="title-edit-label edit-label edit" for="title-edit" style="display: none;">Title</label>
+                        <label class="edit-label edit" for="title-edit" style="display: none;">Title</label>
                         <textarea class="title-edit edit user-input" data-name="title">{{ info.title }}</textarea>
 
                         <div class="editable-text non-edit display">{{ info.text }}</div>
-                        <label class="text-edit-label edit-label edit" for="text-edit" style="display: none;">Text</label>
+                        <label class="edit-label edit" for="text-edit" style="display: none;">Text</label>
                         <textarea class="text-edit edit user-input" data-name="text">{{ info.text }}</textarea>
 
                         <div class="editable-subtext non-edit display">{{ info.subtext }}</div>
-                        <label class="subtext-edit-label edit-label edit" for="subtext-edit" style="display: none;">Subtext</label>
+                        <label class="edit-label edit" for="subtext-edit" style="display: none;">Subtext</label>
                         <textarea class="subtext-edit edit user-input" data-name="subtext">{{ info.subtext }}</textarea>
 
                         <form action="{% url 'upload_image' info.id %}" method="post" class="img-form edit" enctype="multipart/form-data">

@@ -44,23 +44,23 @@
                     </div>
                     <div class="editable">
                         <div class="editable-title non-edit display">{{ eat.title }}</div>
-                        <label class="title-edit-label edit-label edit" for="title-edit" style="display: none;">Title</label>
+                        <label class="edit-label edit" for="title-edit" style="display: none;">Title</label>
                         <textarea class="title-edit edit user-input" data-name="title">{{ eat.title }}</textarea>
 
                         <div class="editable-drive non-edit"><span class="display">{{ eat.drive_time }}</span> minute drive</div>
-                        <label class="drive-edit-label edit-label edit" for="drive-edit" style="display: none;">Drive time</label>
+                        <label class="edit-label edit" for="drive-edit" style="display: none;">Drive time</label>
                         <textarea class="drive-edit edit user-input" data-name="drive_time">{{ eat.drive_time }}</textarea>
                         
                         <div class="editable-text non-edit display">{{ eat.text }}</div>
-                        <label class="text-edit-label edit-label edit" for="text-edit" style="display: none;">Text</label>
+                        <label class="edit-label edit" for="text-edit" style="display: none;">Text</label>
                         <textarea class="text-edit edit user-input" data-name="text">{{ eat.text }}</textarea>
 
                         <div href="{{ eat.website }}" class="editable-website non-edit"><span style="color: #636758;">website: </span><a class="website display" href="{{ eat.website }}">{{ eat.website }}</a></div>
-                        <label class="website-edit-label edit-label edit" for="website-edit" style="display: none;">Website</label>
+                        <label class="edit-label edit" for="website-edit" style="display: none;">Website</label>
                         <textarea class="website-edit edit user-input" data-name="website">{{ eat.website }}</textarea>
 
                         <div class="editable-phone non-edit"><span style="color: #636758;">phone: </span><span class="phone-number display">{{ eat.phone }}</span></div>
-                        <label class="phone-edit-label edit-label edit" for="phone-edit" style="display: none;">Phone (just numbers)</label>
+                        <label class="edit-label edit" for="phone-edit" style="display: none;">Phone (just numbers)</label>
                         <textarea class="phone-edit edit user-input" data-name="phone">{{ eat.phone }}</textarea>
 
                         <form action="{% url 'upload_image' eat.id %}" method="post" class="img-form edit" enctype="multipart/form-data">
