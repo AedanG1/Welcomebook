@@ -75,3 +75,15 @@ class Contacts(models.Model):
     
     def __str__(self):
         return f"{self.title}"
+        
+
+class About(models.Model):
+    html_content = models.TextField()
+
+    def save(self, *args, **kwargs):
+        if not self.pk and About.objects.exists():
+            raise ValueError('There can be only one About instance.')
+        return super(About, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return "About the house content"

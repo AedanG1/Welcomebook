@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import Rule, Information, Eats, Activity, Contacts
+from .models import Rule, Information, Eats, Activity, Contacts, About
 
 from .forms import InfoImageForm, EatsImageForm, ActivityImageForm
 
@@ -18,6 +17,14 @@ MODELS = {
 # Create your views here.
 def index(request):
     return render(request, "app/index.html")
+
+
+def about_page(request):
+    about = get_object_or_404(About)
+    context = {
+        "about": about
+    }
+    return render(request, 'app/about_page.html', context)
 
 
 def house_rules_admin(request):
@@ -58,12 +65,35 @@ def activity_admin(request):
     return render(request, "app/activity_admin.html", context)
 
 
+def about_admin(request):
+    about = get_object_or_404(About)
+    context = {
+        "about": about
+    }
+    return render(request, "app/about_admin.html", context)
+
+
 def contacts_admin(request):
     contacts = Contacts.objects.all()
     context = {
         "contacts": contacts
     }
     return render(request, "app/contacts_admin.html", context)
+
+
+def save_about(request):
+    if request.method == "POST":
+        about = get_object_or_404(About)
+        data = json.loads(request.body)
+        about.html_content = data["html"]
+        about.save()
+        return JsonResponse({
+            "success": "Changes saved"
+        }, status=200)
+    else:
+        return JsonResponse({
+            "error": "POST request required"
+        }, status=400)
 
 
 def add_new_item(request):

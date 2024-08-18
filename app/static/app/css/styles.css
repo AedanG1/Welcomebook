@@ -288,12 +288,22 @@ body {
   padding-right: 20px;
   padding-bottom: 48px;
   padding-top: 24px;
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: 400;
+  margin: 0;
 }
 
 h3 {
-  font-size: 24px;
-  font-weight: 400;
-  margin: 0;
+  font-size: 1.17em;
 }
 
 h5 {
