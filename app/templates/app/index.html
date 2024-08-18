@@ -26,10 +26,10 @@
                     <img src="static/app/assets/local_activity.svg" class="btn-icon-2-1">
                 </a>
             </div>
-            <div id="emergency-contacts-btn" class="nav-btn">
+            <a href="{% url 'contacts_admin' %}" id="emergency-contacts-btn" class="nav-btn">
                 <div class="btn-label">Emergency contacts</div>
                 <img src="static/app/assets/emergency.svg" class="btn-icon-1">
-            </div>
+            </a>
             <a href="{% url 'house_rules_admin' %}" id="about-the-house-btn" class="nav-btn">
                 <div class="btn-label">House rules</div>
                 <img src="static/app/assets/developer_guide.svg" class="btn-icon-1">

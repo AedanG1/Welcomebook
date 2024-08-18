@@ -199,6 +199,14 @@ ul {
   display: none;
 }
 
+.address-one-edit {
+  display: none;
+}
+
+.address-two-edit {
+  display: none;
+}
+
 .editable-drive {
   display: block;
   font-size: 12px;

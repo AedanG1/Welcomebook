@@ -10,6 +10,7 @@ urlpatterns = [
     path("information_admin", views.information_admin, name="information_admin"),
     path("eats_admin", views.eats_admin, name="eats_admin"),
     path("activity_admin", views.activity_admin, name="activity_admin"),
+    path("contacts_admin", views.contacts_admin, name="contacts_admin"),
 
     # API routes
     path("edit_item/<int:item_id>", views.edit_item, name="edit_item"),

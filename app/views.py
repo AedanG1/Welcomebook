@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Rule, Information, Eats, Activity
+from .models import Rule, Information, Eats, Activity, Contacts
 
-from .forms import RuleForm, InfoImageForm, EatsImageForm, ActivityImageForm
+from .forms import InfoImageForm, EatsImageForm, ActivityImageForm
 
 import json
 
@@ -12,7 +12,8 @@ MODELS = {
     "rule": Rule,
     "info": Information,
     "eats": Eats,
-    "activity": Activity
+    "activity": Activity,
+    "contacts": Contacts
 }
 
 # Create your views here.
@@ -24,7 +25,6 @@ def house_rules_admin(request):
     rules = Rule.objects.all()
     context = {
         "rules": rules,
-        "form": RuleForm
     }
     return render(request, "app/house_rules_admin.html", context)
 
@@ -57,6 +57,14 @@ def activity_admin(request):
         "form": form
     }
     return render(request, "app/activity_admin.html", context)
+
+
+def contacts_admin(request):
+    contacts = Contacts.objects.all()
+    context = {
+        "contacts": contacts
+    }
+    return render(request, "app/contacts_admin.html", context)
 
 
 def add_new_item(request):
@@ -101,6 +109,17 @@ def add_new_item(request):
                 position = activity_total + 1
             )
             new_activity.save()
+        elif type == "contacts":
+            contacts_total = Contacts.objects.all().count()
+            new_contacts = Contacts(
+                title = "New contact",
+                phone = 1234567890,
+                address_one = "123 Example St",
+                address_two = "Exampleton EX 98765",
+                position = contacts_total + 1
+            )
+            new_contacts.save()
+
         return JsonResponse({
             "success": "New item created"
         }, status=200)

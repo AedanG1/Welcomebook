@@ -1,0 +1,70 @@
+{% extends 'app/layout.html' %}
+
+{% block body %}
+
+<div id="content-page">
+    <a href="{% url 'index' %}">
+        <span id="back-btn" class="material-symbols-outlined">
+            arrow_back
+        </span>
+    </a>
+    <h3 id="content-title">House rules</h3>
+    <div id="content">
+        <button data-type="contacts" class="save-positions btn-subtle" style="margin-right: 16px;">Save order</button>
+        <button data-type="contacts" class="new-item-btn btn-subtle" style="margin-bottom: 32px;">Add new contact</button>
+        <div id="sortable" class="list-group">
+            {% for contact in contacts %}
+                <div class="list-group-item contacts" id="{{ contact.id }}" data-type="contacts">
+                    <div class="buttons">
+                        <span class="drag-btn material-symbols-outlined">
+                            drag_handle
+                        </span>
+                        <div class="edit-btn-group">
+                            <button class="edit-btn non-edit" data-action="edit" style="display: block;">
+                                <span class="edit-icon material-symbols-outlined">
+                                    edit
+                                </span>
+                            </button>
+                            <button class="edit-confirm edit" data-action="confirm" style="display: none;">
+                                <span class="confirm-icon material-symbols-outlined">
+                                    check
+                                </span>
+                            </button>
+                            <button class="edit-cancel edit" data-action="cancel" style="display: none;">
+                                <span class="cancel-icon material-symbols-outlined">
+                                    close
+                                </span>
+                            </button>
+                        </div>
+                        <button class="delete-btn non-edit" data-action="delete">
+                            <span class="delete-icon material-symbols-outlined">
+                                delete
+                            </span>
+                        </button>
+                    </div>
+                    <div class="editable">
+                        <div class="editable-title non-edit display">{{ contact.title }}</div>
+                        <label class="edit-label edit" for="title-edit" style="display: none;">Title</label>
+                        <textarea class="title-edit edit user-input" data-name="title">{{ contact.title }}</textarea>
+
+                        <div class="editable-phone non-edit display"><span class="phone-number display">{{ contact.phone }}</span></div>
+                        <label class="edit-label edit" for="phone-edit" style="display: none;">Phone</label>
+                        <textarea class="phone-edit edit user-input" data-name="phone">{{ contact.phone }}</textarea>
+
+                        <div class="editable-address non-edit display">{{ contact.address_one }}</div>
+                        <label class="edit-label edit" for="address-edit-one" style="display: none;">Street</label>
+                        <textarea class="address-one-edit edit user-input" data-name="address_one">{{ contact.address_one}}</textarea>
+
+                        <div class="editable-address non-edit display">{{ contact.address_two }}</div>
+                        <label class="edit-label edit" for="address-edit-two" style="display: none;">City, State, Postcode</label>
+                        <textarea class="address-two-edit edit user-input" data-name="address_two">{{ contact.address_two}}</textarea>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script src="static/app/js/Sortable.min.js"></script>
+<script src="static/app/js/main.js"></script>
+
+{% endblock %}

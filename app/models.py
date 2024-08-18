@@ -61,3 +61,17 @@ class Activity(models.Model):
     def __str__(self):
         return f"{self.title}"
 
+
+class Contacts(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=300)
+    phone = models.IntegerField()
+    address_one = models.CharField(max_length=300)
+    address_two = models.CharField(max_length=300)
+    position = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ["position"]
+    
+    def __str__(self):
+        return f"{self.title}"
