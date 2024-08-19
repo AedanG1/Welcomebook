@@ -14,7 +14,7 @@ MODELS = {
     "contacts": Contacts
 }
 
-# Create your views here.
+# USER PAGES
 def index(request):
     return render(request, "app/index.html")
 
@@ -27,6 +27,47 @@ def about_page(request):
     return render(request, 'app/about_page.html', context)
 
 
+def activity_page(request):
+    activitys = Activity.objects.all()
+    context = {
+        "activitys": activitys
+    }
+    return render(request, 'app/activity_page.html', context)
+
+
+def house_rules_page(request):
+    rules = Rule.objects.all()
+    context = {
+        "rules": rules
+    }
+    return render(request, 'app/house_rules_page.html', context)
+
+
+def contacts_page(request):
+    contacts = Contacts.objects.all()
+    context = {
+        "contacts": contacts
+    }
+    return render(request, 'app/contacts_page.html', context)
+
+
+def information_page(request):
+    infos = Information.objects.all()
+    context = {
+        "infos": infos
+    }
+    return render(request, 'app/information_page.html', context)
+
+
+def eats_page(request):
+    eats = Eats.objects.all()
+    context = {
+        "eats": eats
+    }
+    return render(request, 'app/eats_page.html', context)
+
+
+# ADMIN PAGES
 def house_rules_admin(request):
     rules = Rule.objects.all()
     context = {
@@ -81,6 +122,7 @@ def contacts_admin(request):
     return render(request, "app/contacts_admin.html", context)
 
 
+# ADMIN FUNCTIONS
 def save_about(request):
     if request.method == "POST":
         about = get_object_or_404(About)

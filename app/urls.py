@@ -23,5 +23,10 @@ urlpatterns = [
     path("save_about", views.save_about, name="save_about"),
 
     # USER pages
-    path("about_page", views.about_page, name="about_page")
+    path("about_page", views.about_page, name="about_page"),
+    path("activity_page", views.activity_page, name="activity_page"),
+    path("house_rules_page", views.house_rules_page, name="house_rules_page"),
+    path("contacts_page", views.contacts_page, name="contacts_page"),
+    path("information_page", views.information_page, name="information_page"),
+    path("eats_page", views.eats_page, name="information_page")
 ]

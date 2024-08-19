@@ -2,16 +2,16 @@
 
 {% block body %}
 
-    <div id="content-page">
-        <a href="{% url 'index' %}">
-            <span id="back-btn" class="material-symbols-outlined">
-                arrow_back
-            </span>
-        </a>
-        <h2 id="content-title">About the house</h2>
-        <div id="content">
-            <div>{{ about.html_content|safe }}</div>
-        </div>
+<div id="content-page">
+    <a href="{% url 'index' %}">
+        <span id="back-btn" class="material-symbols-outlined">
+            arrow_back
+        </span>
+    </a>
+    <h2 id="content-title">About the house</h2>
+    <div id="content">
+        <div>{{ about.html_content|safe }}</div>
     </div>
+</div>
 
 {% endblock %}

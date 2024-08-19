@@ -1,0 +1,24 @@
+{% extends 'app/layout.html' %}
+
+{% block body %}
+
+<div id="content-page">
+    <a href="{% url 'index' %}">
+        <span id="back-btn" class="material-symbols-outlined">
+            arrow_back
+        </span>
+    </a>
+    <h2 id="content-title">House rules</h2>    
+    <div id="content">
+        {% for rule in rules %}
+            <div class="content-item">
+                <div class="text-col">
+                    <div class="rule-text">{{ rule.text }}</div>
+                    <li class="subtext-row">{{ rule.subtext }}</li>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

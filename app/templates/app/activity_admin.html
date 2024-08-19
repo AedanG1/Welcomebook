@@ -63,6 +63,7 @@
                         <form action="{% url 'upload_image' activity.id %}" method="post" class="img-form edit" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ form }}
+                            <input hidden name="type" value="activity">
                             <button type="submit">Upload</button>
                         </form>
 

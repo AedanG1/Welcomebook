@@ -1,0 +1,28 @@
+{% extends 'app/layout.html' %}
+
+{% block body %}
+
+<div id="content-page">
+    <a href="{% url 'index' %}">
+        <span id="back-btn" class="material-symbols-outlined">
+            arrow_back
+        </span>
+    </a>
+    <h2 id="content-title">House rules</h2>    
+    <div id="content">
+        {% for contact in contacts %}
+            <div class="content-item">
+                <div class="text-col">
+                    <div class="title-row">{{ contact.title }}</div>
+                    <div class="phone-row phone-number">{{ contact.phone }}</div>
+                    <div class="address-row">{{ contact.address_one }}</div>
+                    <div class="address-row">{{ contact.address_two }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="static/app/js/user.js"></script>
+
+{% endblock %}

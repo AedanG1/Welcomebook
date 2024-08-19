@@ -1,0 +1,30 @@
+{% extends 'app/layout.html' %}
+
+{% block body %}
+
+<div id="content-page">
+    <a href="{% url 'index' %}">
+        <span id="back-btn" class="material-symbols-outlined">
+            arrow_back
+        </span>
+    </a>
+    <h2 id="content-title">Essential information</h2>    
+    <div id="content">
+        {% for info in infos %}
+            <div class="content-item-col">
+                <div class="text-col">
+                    <div class="title-row">{{ info.title }}</div>
+                    <div class="text-row">{{ info.text }}</div>
+                    <div class="subtext-row">{{ info.subtext }}</div>
+                </div>
+                {% if info.image %}
+                <div class="image-col-lg">
+                    <img class="image-row" src="{{ info.image.url }}">
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

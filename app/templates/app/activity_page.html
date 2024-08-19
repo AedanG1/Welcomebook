@@ -1,0 +1,33 @@
+{% extends 'app/layout.html' %}
+
+{% block body %}
+
+<div id="content-page">
+    <a href="{% url 'index' %}">
+        <span id="back-btn" class="material-symbols-outlined">
+            arrow_back
+        </span>
+    </a>
+    <h2 id="content-title">Things to do</h2>    
+    <div id="content">
+        {% for activity in activitys %}
+            <div class="content-item">
+                {% if activity.image %}
+                <div class="image-col-sm">
+                    <img class="image-row" src="{{ activity.image.url}}">
+                </div>
+                {% else %}
+                <div class="placeholder-img-sm"></div>
+                {% endif %}
+                <div class="text-col">
+                    <div class="title-row">{{ activity.title }}</div>
+                    <div class="drive-row">{{ activity.drive_time }} minute drive</div>
+                    <div class="text-row">{{ activity.text }}</div>
+                    <div class="website-row"><span style="color: #636758;">website: </span><a href="https://{{ activity.website }}">{{ activity.website }}</a></div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

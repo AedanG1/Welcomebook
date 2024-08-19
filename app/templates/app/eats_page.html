@@ -1,0 +1,36 @@
+{% extends 'app/layout.html' %}
+
+{% block body %}
+
+<div id="content-page">
+    <a href="{% url 'index' %}">
+        <span id="back-btn" class="material-symbols-outlined">
+            arrow_back
+        </span>
+    </a>
+    <h2 id="content-title">Places to eat</h2>    
+    <div id="content">
+        {% for eat in eats %}
+            <div class="content-item">
+                {% if eat.image %}
+                <div class="image-col-sm">
+                    <img class="image-row" src="{{ eat.image.url}}">
+                </div>
+                {% else %}
+                <div class="placeholder-img-sm"></div>
+                {% endif %}
+                <div class="text-col">
+                    <div class="title-row">{{ eat.title }}</div>
+                    <div class="drive-row">{{ eat.drive_time }} minute drive</div>
+                    <div class="text-row">{{ eat.text }}</div>
+                    <div class="website-row"><span style="color: #636758;">website: </span><a href="https://{{ eat.website }}">{{ eat.website }}</a></div>
+                    <div class="phone-row"><span style="color: #636758;">phone: </span><span class="phone-number">{{ eat.phone }}</span></div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="static/app/js/user.js"></script>
+
+{% endblock %}
