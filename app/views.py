@@ -1,5 +1,8 @@
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
 from .models import Rule, Information, Eats, Activity, Contacts, About
 
 from .forms import InfoImageForm, EatsImageForm, ActivityImageForm
@@ -15,6 +18,28 @@ MODELS = {
 }
 
 # USER PAGES
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse('index'))
+        else:
+            return render(request, "app/login.html", {
+                "message": "Invalid username and/or password"
+            })
+    else:
+        return render(request, 'app/login.html')
+
+
+def admin_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
+
+
 def index(request):
     return render(request, "app/index.html")
 
@@ -68,6 +93,7 @@ def eats_page(request):
 
 
 # ADMIN PAGES
+@login_required
 def house_rules_admin(request):
     rules = Rule.objects.all()
     context = {
@@ -76,6 +102,7 @@ def house_rules_admin(request):
     return render(request, "app/house_rules_admin.html", context)
 
 
+@login_required
 def eats_admin(request):
     eats = Eats.objects.all()
     form = EatsImageForm
@@ -86,6 +113,7 @@ def eats_admin(request):
     return render(request, "app/eats_admin.html", context)
 
 
+@login_required
 def information_admin(request):
     infos = Information.objects.all()
     form = InfoImageForm
@@ -96,6 +124,7 @@ def information_admin(request):
     return render(request, "app/information_admin.html", context)
 
 
+@login_required
 def activity_admin(request):
     activitys = Activity.objects.all()
     form = ActivityImageForm
@@ -106,6 +135,7 @@ def activity_admin(request):
     return render(request, "app/activity_admin.html", context)
 
 
+@login_required
 def about_admin(request):
     about = get_object_or_404(About)
     context = {
@@ -114,6 +144,7 @@ def about_admin(request):
     return render(request, "app/about_admin.html", context)
 
 
+@login_required
 def contacts_admin(request):
     contacts = Contacts.objects.all()
     context = {
@@ -123,6 +154,7 @@ def contacts_admin(request):
 
 
 # ADMIN FUNCTIONS
+@login_required
 def save_about(request):
     if request.method == "POST":
         about = get_object_or_404(About)
@@ -138,6 +170,7 @@ def save_about(request):
         }, status=400)
 
 
+@login_required
 def add_new_item(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -200,6 +233,7 @@ def add_new_item(request):
         }, status=400)
 
 
+@login_required
 def edit_item(request, item_id):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -224,6 +258,7 @@ def edit_item(request, item_id):
         }, status=400)
 
 
+@login_required
 def delete_item(request, item_id):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -240,6 +275,7 @@ def delete_item(request, item_id):
         }, status=400)
 
 
+@login_required
 def edit_position(request):
     if request.method == "POST":
         data = json.loads(request.body)
@@ -259,6 +295,7 @@ def edit_position(request):
         }, status=400)
 
 
+@login_required
 def upload_image(request, item_id):
     if request.method == 'POST':
         type = request.POST.get('type')
@@ -282,6 +319,7 @@ def upload_image(request, item_id):
         return redirect(path)
 
 
+@login_required
 def remove_image(request, item_id):
     if request.method == 'POST':
         data = json.loads(request.body)

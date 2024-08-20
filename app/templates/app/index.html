@@ -7,7 +7,11 @@
             <h5>Welcome to</h5>
             <h2>Project 32 Road</h2>
         </div>
+        {% if user.is_authenticated %}
         <div id="nav-btn-group">
+            <form action="{% url 'admin_logout' %}">
+                <button type="submit">Admin Logout</button>
+            </form>
             <a href="{% url 'about_admin' %}" id="house-rules-btn" class="nav-btn">
                 <div class="btn-label">About the house</div>
                 <img src="static/app/assets/house.svg" class="btn-icon-1">
@@ -35,6 +39,36 @@
                 <img src="static/app/assets/developer_guide.svg" class="btn-icon-1">
             </a>
         </div>
+        {% else %}
+        <div id="nav-btn-group">
+            <a href="{% url 'about_page' %}" id="house-rules-btn" class="nav-btn">
+                <div class="btn-label">About the house</div>
+                <img src="static/app/assets/house.svg" class="btn-icon-1">
+            </a>
+            <a href="{% url 'information_page' %}" id="essential-info-btn" class="nav-btn">
+                <div class="btn-label">Essential Information</div>
+                <img src="static/app/assets/privacy_tip.svg" class="btn-icon-1">
+            </a>
+            <div id="small-btn-group">
+                <a href="{% url 'eats_page' %}" id="places-to-eat-btn" class="nav-btn">
+                    <div class="btn-label">Places to eat</div>
+                    <img src="static/app/assets/flatware.svg" class="btn-icon-2">
+                </a>
+                <a href="{% url 'activity_page' %}" id="things-to-do-btn" class="nav-btn">
+                    <div class="btn-label">Things to do</div>
+                    <img src="static/app/assets/local_activity.svg" class="btn-icon-2-1">
+                </a>
+            </div>
+            <a href="{% url 'contacts_page' %}" id="emergency-contacts-btn" class="nav-btn">
+                <div class="btn-label">Emergency contacts</div>
+                <img src="static/app/assets/emergency.svg" class="btn-icon-1">
+            </a>
+            <a href="{% url 'house_rules_page' %}" id="about-the-house-btn" class="nav-btn">
+                <div class="btn-label">House rules</div>
+                <img src="static/app/assets/developer_guide.svg" class="btn-icon-1">
+            </a>
+        </div>
+        {% endif %}
     </div>
 
 {% endblock %}

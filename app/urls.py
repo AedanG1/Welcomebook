@@ -12,6 +12,8 @@ urlpatterns = [
     path("activity_admin", views.activity_admin, name="activity_admin"),
     path("contacts_admin", views.contacts_admin, name="contacts_admin"),
     path("about_admin", views.about_admin, name="about_admin"),
+    path("admin_login", views.admin_login, name="admin_login"),
+    path("admin_logout", views.admin_logout, name="admin_logout"),
 
     # API routes
     path("edit_item/<int:item_id>", views.edit_item, name="edit_item"),
@@ -28,5 +30,5 @@ urlpatterns = [
     path("house_rules_page", views.house_rules_page, name="house_rules_page"),
     path("contacts_page", views.contacts_page, name="contacts_page"),
     path("information_page", views.information_page, name="information_page"),
-    path("eats_page", views.eats_page, name="information_page")
+    path("eats_page", views.eats_page, name="eats_page")
 ]

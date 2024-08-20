@@ -11,7 +11,7 @@
 }
 
 #content {
-    padding: 16px;
+    padding: 32px;
     background-color: white;
     border-radius: 8px;
     box-shadow: $box-shadow;
@@ -175,11 +175,6 @@ ul {
     padding: 8px 16px;
 }
 
-.btn-subtle:hover {
-    cursor: pointer;
-    background: $secondary-color;
-}
-
 .buttons {
     display: flex;
     flex-direction: column;
@@ -189,4 +184,38 @@ ul {
 
 .img-form {
     display: none;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+
+#login-form > label {
+    margin-bottom: 8px;
+}
+
+.login-input {
+    border: $secondary-color 1px solid;
+    box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.10);
+    border-radius: 4px;
+    background-color: transparent;
+    padding: 8px;
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-family: Lexend;
+}
+
+#login-form > button {
+    margin-top: 16px;
+    padding: 8px 24px;
+    width: fit-content;
+    height: fit-content;
+    background-color: $low-vis-icon-color;
+    box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.10);
+    border: $secondary-color 1px solid;
+    font-size: 16px;
+    border-radius: 4px;
+    color: $paragraph-color;
 }

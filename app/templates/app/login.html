@@ -1,0 +1,36 @@
+{% extends 'app/layout.html' %}
+
+{% block body %}
+
+<div id="content-page">
+    <a href="{% url 'index' %}">
+        <span id="back-btn" class="material-symbols-outlined">
+            arrow_back
+        </span>
+    </a>
+    <h2 id="content-title">Admin login</h2>    
+    <div id="content">
+        <div style="display: flex; justify-content: center;">
+            <form id="login-form" method="post" action="{% url 'admin_login' %}">
+                {% csrf_token %}
+                {% if message %}
+                <p style="color: red; margin-bottom: 12px;">{{ message }}</p>
+                {% endif %}
+                <label>Username</label>
+                <input class="login-input" autofocus type="text" name="username">
+                <div style="display:flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <label>Password</label>
+                    <span id="vis-toggle" class="material-symbols-outlined">
+                        visibility_off
+                    </span>
+                </div>
+                <input id="password-input" class="login-input" type="password" name="password">
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="static/app/js/login.js"></script>
+
+{% endblock %}
