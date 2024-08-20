@@ -68,10 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Confirm edit function
-    function confirmEdit(item) {
-        let itemId = item.id
-        let type = item.dataset.type
-
+    function confirmEdit(item, itemId, type) {
         const userInput = item.getElementsByClassName('user-input');
         const elements = item.getElementsByClassName('display');
         let ruleObject = {};
@@ -98,10 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Delete item function
-    function deleteItem(item) {
-        const itemId = item.id;
-        const type = item.dataset.type;
-
+    function deleteItem(item, itemId, type) {
         const body = JSON.stringify({type: type});
         fetch(`/delete_item/${itemId}`, {...requestOptions, body})
         .then (response => response.text())
@@ -113,9 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Remove image function
-    function removeImage(item) {
-        const type = item.dataset.type;
-        const itemId = item.id;
+    function removeImage(item, itemId, type) {
         const itemImg = item.querySelector('.editable > div > img');
 
         const body = JSON.stringify({type: type})
@@ -132,17 +124,19 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.list-group').addEventListener('click', function(event) {
         const action = event.target.closest('button').dataset.action;
         const item = event.target.closest('.list-group-item');
+        const itemId = event.target.closest('.list-group-item').id;
+        const type = event.target.closest('.list-group-item').dataset.type;
 
         if (action === 'edit') {
-            editItem(item);
+            editItem(item, itemId, type);
         } else if (action === 'cancel') {
-            cancelEdit(item);
+            cancelEdit(item, itemId, type);
         } else if (action === 'confirm') {
-            confirmEdit(item);
+            confirmEdit(item, itemId, type);
         } else if (action === 'delete') {
-            deleteItem(item);
+            deleteItem(item, itemId, type);
         } else if (action === 'rmv-img') {
-            removeImage(item);
+            removeImage(item, itemId, type);
         }
     })
 
