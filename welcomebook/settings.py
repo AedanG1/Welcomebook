@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-bo%va=e^$^7!iv
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['AedanG1.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['aedang1.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
