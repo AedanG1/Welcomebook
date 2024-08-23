@@ -20,7 +20,7 @@ class Information(models.Model):
     title = models.CharField(max_length=300)
     text = models.CharField(max_length=300)
     subtext = models.CharField(max_length=300, blank=True)
-    image = models.ImageField(upload_to='uploads/', blank=True)
+    image = models.ImageField(blank=True)
     position = models.PositiveIntegerField()
 
     class Meta:
@@ -38,7 +38,7 @@ class Eats(models.Model):
     website = models.CharField(max_length=300, blank=True)
     phone = models.IntegerField()
     position = models.PositiveIntegerField()
-    image = models.ImageField(upload_to='uploads/', blank=True)
+    image = models.ImageField(blank=True)
 
     class Meta:
         ordering = ["position"]
@@ -54,7 +54,7 @@ class Activity(models.Model):
     text = models.CharField(max_length=300)
     website = models.CharField(max_length=300, blank=True)
     position = models.PositiveIntegerField()
-    image = models.ImageField(upload_to='uploads/', blank=True)
+    image = models.ImageField(blank=True)
 
     class Meta:
         ordering = ["position"]
