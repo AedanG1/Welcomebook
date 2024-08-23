@@ -1,0 +1,221 @@
+#content-page {
+    max-width: 818px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0px 12px;
+}
+
+#content-title {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+#content {
+    padding: 32px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: $box-shadow;
+}
+
+#back-btn {
+    padding-left: 12px;
+    margin-bottom: 24px;
+}
+
+ul {
+    padding-left: 24px;
+}
+
+.list-group {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.list-group-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    max-width: 75%;
+    overflow-wrap: break-word;
+}
+
+.drag-btn {
+    cursor: move;
+    cursor: -webkit-grab;
+    color: $paragraph-color;
+    padding-left: 6px;
+}
+
+.editable {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 100%;
+}
+
+.edit-btn {
+    background-color: transparent;
+    border: transparent;
+}
+
+.edit-icon {
+    color: $edit-color;
+}
+
+.edit-confirm {
+    background-color: transparent;
+    border: transparent;
+}
+
+.confirm-icon {
+    color: $confirm-color;
+}
+
+.edit-cancel {
+    background-color: transparent;
+    border: transparent;
+}
+
+.cancel-icon {
+    color: $danger-color;
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: transparent;
+}
+
+.delete-icon {
+    color: $danger-color;
+}
+
+.title-edit {
+    display: none;
+}
+
+.text-edit {
+    display: none;
+}
+
+.subtext-edit {
+    display: none;
+}
+
+.drive-edit {
+    display: none;
+}
+
+.website-edit {
+    display: none;
+}
+
+.phone-edit {
+    display: none;
+}
+
+.address-one-edit {
+    display: none;
+}
+
+.address-two-edit {
+    display: none;
+}
+
+.editable-drive {
+    display: block;
+    font-size: 12px;
+    color: $text-color;
+}
+
+.editable-title {
+    display: block;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.editable-text {
+    display: block;
+    font-size: 14px;
+    overflow-y: scroll;
+    max-height: 80px;
+}
+
+.editable-text::-webkit-scrollbar{
+    display: none;
+}
+
+.editable-subtext {
+    display: block;
+    font-size: 14px;
+    overflow-y: scroll;
+    max-height: 80px;
+}
+
+.editable-subtext::-webkit-scrollbar{
+    display: none;
+}
+
+.edit-label {
+    font-size: 12px;
+    color: grey;
+}
+
+.edit-btn-group {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.btn-subtle {
+    background: $low-vis-icon-color;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.img-form {
+    display: none;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+
+#login-form > label {
+    margin-bottom: 8px;
+}
+
+.login-input {
+    border: $secondary-color 1px solid;
+    box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.10);
+    border-radius: 4px;
+    background-color: transparent;
+    padding: 8px;
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-family: Lexend;
+}
+
+#login-form > button {
+    margin-top: 16px;
+    padding: 8px 24px;
+    width: fit-content;
+    height: fit-content;
+    background-color: $low-vis-icon-color;
+    box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.10);
+    border: $secondary-color 1px solid;
+    font-size: 16px;
+    border-radius: 4px;
+    color: $paragraph-color;
+}
