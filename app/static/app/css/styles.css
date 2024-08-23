@@ -425,6 +425,9 @@ p {
     padding-left: 0;
     padding-right: 0;
   }
+  #content-page {
+    padding: 0px 8px;
+  }
 }
 button {
   font-family: "Lexend", sans-serif;
