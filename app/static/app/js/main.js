@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formatNumber(phoneNumber)
     })
 
+    // Reference: https://www.geeksforgeeks.org/how-to-format-a-phone-number-in-human-readable-using-javascript/
     function formatNumber(phoneNumber) {
         let formattedNumber = phoneNumber.innerHTML.replace(/(\d{3})(\d{3})(\d{4})/, `($1) $2-$3`);
         phoneNumber.innerHTML = formattedNumber
@@ -71,14 +72,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function confirmEdit(item, itemId, type) {
         const userInput = item.getElementsByClassName('user-input');
         const elements = item.getElementsByClassName('display');
-        let ruleObject = {};
-        ruleObject.type = type;
+        let itemObject = {};
+        itemObject.type = type;
 
         for (let i = 0; i < userInput.length; i++) {
-            ruleObject[userInput[i].dataset.name] = userInput[i].value;
+            itemObject[userInput[i].dataset.name] = userInput[i].value;
         }
 
-        const body = JSON.stringify(ruleObject);
+        const body = JSON.stringify(itemObject);
         fetch(`/edit_item/${itemId}`, {...requestOptions, body})
         .then(response => response.text())
         .then(data => {
